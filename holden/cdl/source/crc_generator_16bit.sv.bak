@@ -1,0 +1,47 @@
+module crc_generator_16bit (
+	input wire clk,
+	input wire nRst,
+	input wire din,
+	input wire shiftEn,
+	input wire clear,
+	output reg [15:0] crc
+);
+
+wire xor1, xor2, xor3;
+
+assign xor3 = din ^ crc[15];
+assign xor2 = crc[14] ^ xor3;
+assign xor1 = crc[1] ^ xor3;
+
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		crc <= '0;
+	end else begin
+		if (clear == 1'b1) begin
+			crc <= '0;
+		end else begin
+			if (shift_en == 1'b1) begin
+				crc[15] <= xor2;
+				crc[14] <= crc[13];
+				crc[13] <= crc[12];
+				crc[12] <= crc[11];
+				crc[11] <= crc[10];
+				crc[10] <= crc[9];
+				crc[9]  <= crc[8];
+				crc[8]  <= crc[7];
+				crc[7]  <= crc[6];
+				crc[6]  <= crc[5];
+				crc[5]  <= crc[4];
+				crc[4]  <= crc[3];
+				crc[3]  <= crc[2];
+				crc[2]  <= xor1;
+				crc[1]  <= crc[0];
+				crc[0]  <= xor3;
+			end else begin
+				crc <= crc;
+			end
+		end
+	end
+end
+
+endmodule

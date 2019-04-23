@@ -1,0 +1,9 @@
+QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
+Start time: 18:13:36 on Apr 23,2019
+vlog -sv -work source_work source/address_decoder.sv 
+-- Compiling module address_decoder
+
+Top level modules:
+	address_decoder
+End time: 18:13:37 on Apr 23,2019, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0

@@ -1,0 +1,41 @@
+module ahb_lite_slave (
+	// System Signals	
+	input wire clk,
+	input wire nRst,
+	
+	// AHB-Lite Input Signals
+	input wire hsel,
+	input wire [6:0] haddr,
+	input wire [1:0] htrans,
+	input wire [1:0] hsize,
+	input wire hwrite,
+	input wire [31:0] hwdata,
+	input wire [2:0] hburst,
+
+	// Internal USB Input Signals
+	input wire rxDataReady,
+	input wire rxTransferActive,
+	input wire rxError,
+	input wire txTransferActive,
+	input wire txError,
+	input wire [6:0] bufferOccupancy,
+	input wire [31:0] rxData,
+
+	// AHB-Lite Output Signals
+	output wire [31:0] hrdata,
+	output wire hresp,
+	output wire hready,
+
+	// Internal USB Output Signals
+	output wire bufferReserved,
+	output wire getRxData,
+	output wire storeTxData,
+	output wire [31:0] txData,
+	output wire [1:0] dataSize,
+	output wire [6:0] txPacketDataSize
+);
+
+
+
+
+endmodule

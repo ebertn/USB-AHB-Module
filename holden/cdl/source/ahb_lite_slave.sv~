@@ -1,0 +1,230 @@
+module ahb_lite_slave (
+	// System Signals	
+	input wire clk,
+	input wire nRst,
+	
+	// AHB-Lite Input Signals
+	input wire hsel,
+	input wire [6:0] haddr,
+	input wire [1:0] htrans,
+	input wire [1:0] hsize,
+	input wire hwrite,
+	input wire [31:0] hwdata,
+	input wire [2:0] hburst,
+
+	// Internal USB Input Signals
+	input wire rxDataReady,
+	input wire rxTransferActive,
+	input wire rxError,
+	input wire txTransferActive,
+	input wire txError,
+	input wire [6:0] bufferOccupancy,
+	input wire [31:0] rxData,
+
+	// AHB-Lite Output Signals
+	output wire [31:0] hrdata,
+	output wire hresp,
+	output wire hready,
+
+	// Internal USB Output Signals
+	output wire bufferReserved,
+	output wire getRxData,
+	output wire storeTxData,
+	output wire [31:0] txData,
+	output wire [1:0] dataSize,
+	output reg  [6:0] txPacketDataSize
+);
+
+// Internal Signals
+reg [6:0] prevAddr;
+reg [15:0] nextErrorData;
+reg [15:0] nextStatusData;
+reg [6:0] nextEHTSData;
+reg [15:0] statusData;
+reg [31:0] rdata;
+reg [6:0] boData;
+reg [15:0] errorData;
+
+
+// Enums for state and nextState
+enum reg [1:0] {IDLE=2'b00, WRITE=2'b01, READ=2'b10, ERROR=2'b11} state;
+enum reg [1:0] {IDLE=2'b00, WRITE=2'b01, READ=2'b10, ERROR=2'b11} nextState;
+
+
+// Small Assignments
+assign dataSize = hsize;
+assign hresp = (state == ERROR) ? 1'b1 : 1'b0;
+
+// TODO: Implement HREADY
+// TODO: Implement code to reset the 0x48 register
+
+// Next State Logic
+// NOTE: this module assumes you use the correct address sizes
+always_comb begin
+	storeTxData = 1'b0;
+	getRxData = 1'b0;
+	nextState = IDLE;
+
+	if (~hsel && htrans != IDLE) begin
+		if (hsize == 2'b11) begin
+			nextState = ERROR;
+		end else if (hwrite) begin
+			if (haddr > 7'h00 && haddr < 7'h40) begin
+				storeTxData = 1'b1;
+				nextState = WRITE;
+			end else if (haddr == 7'h48 && hsize == 1'b1) begin
+				nextState = WRITE;
+			end else begin
+				nextState = ERROR;
+			end
+		end else if (!hwrite) begin
+			if (haddr > 7'h00 && haddr < 7'h40) begin
+				getRxData = 1'b1;
+				nextState = READ;
+			end else if (haddr >= 7'h40 && haddr < 7'h44 && (hsize == 2'b00 || hsize == 2'b01)) begin
+				nextState = READ;
+			end else if (haddr == 7'h44 || haddr == 7'h48 && hsize == 2'b00) begin
+				nextState = READ;
+			end else begin
+				nextState = ERROR;
+			end
+		end else begin
+			nextState = ERROR;
+		end
+	end
+end
+
+
+// Register for State
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		state <= IDLE;
+	end else begin
+		state <= nextState;
+	end
+end
+
+
+// Register to get the last address
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		prevAddr <= '0;
+	end else begin
+		prevAddr <= haddr;
+	end
+end
+
+
+// Register to get the last size
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		prevSize <= '0;
+	end else begin
+		prevSize <= hsize;
+	end
+end
+
+
+// Address Decoder Block
+always_comb begin
+	hrdata = 16'hFFFF;
+	nextEHTSData = txPacketDataSize;
+	// Insert Buffer Reserved Logic Here
+	
+	if (state == WRITE) begin
+		if (prevAddr > 7'h00 && prevAddr < 7'h34) begin				// data buffer
+			if (
+		end else if (prevAddr == 7'h40 || prevAddr == 7'h41) begin	// status register
+
+		end else if (prevAddr == 7'h42 || prevAddr == 7'h43) begin	// error register
+
+		end else if (prevAddr == 7'h44) begin						// buffer occupancy register
+
+		end else if (prevAddr == 7'h48) begin						// endpoint-to-host transfer size register
+
+		end else begin												// default
+			
+		end
+	end
+end
+
+
+// Next State Logic for Error Register
+always_comb begin
+	nextErrorData = 16'h00;
+	nextErrorData[8] = txError;
+	nextErrorData[0] = rxError;
+end
+
+
+// Next State Logic for Status Register
+always_comb begin
+	nextStatusData = 16'h00;
+	nextStatusData[0] = rxDataReady;
+	nextStatusData[8] = rxTransferActive;
+	nextStatusData[9] = txTransferActive;
+end
+
+
+// Error Register
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		errorData <= '0;
+	end else begin
+		errorData <= nextErrorData;
+	end
+end
+
+
+// Buffer Occupancy Register
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		boData <= '0;
+	end else begin
+		boData <= bufferOccupancy;
+	end
+end
+
+
+// RDATA Register
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		rData <= '0;
+	end else begin
+		rData <= rxData;
+	end
+end
+
+
+// Status Register
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		statusData <= '0;
+	end else begin
+		statusData <= nextStatusData;
+	end
+end
+
+
+// Endpoint-to-host Transfer Size Register
+always_ff @(posedge clk, negedge nRst) begin
+	if (nRst == 1'b0) begin
+		txPacketDataSize <= '0;
+	end else begin
+		txPacketDataSize <= nextEHTSData;
+	end
+end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
