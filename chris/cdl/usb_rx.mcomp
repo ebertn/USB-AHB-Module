@@ -1,0 +1,7 @@
+QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
+Start time: 14:04:02 on Apr 23,2019
+vlog -sv -work mapped_work mapped/usb_rx.v 
+** Error: (vlog-19) Failed to access library 'mapped_work' at "mapped_work".
+No such file or directory. (errno = ENOENT)
+End time: 14:04:02 on Apr 23,2019, Elapsed time: 0:00:00
+Errors: 1, Warnings: 0
