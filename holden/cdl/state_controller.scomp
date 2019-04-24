@@ -1,9 +1,9 @@
 QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
-Start time: 05:59:35 on Apr 24,2019
+Start time: 08:17:11 on Apr 24,2019
 vlog -sv -work source_work source/state_controller.sv 
 -- Compiling module state_controller
 
 Top level modules:
 	state_controller
-End time: 05:59:36 on Apr 24,2019, Elapsed time: 0:00:01
+End time: 08:17:11 on Apr 24,2019, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0

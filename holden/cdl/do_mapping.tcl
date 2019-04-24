@@ -1,6 +1,6 @@
 # Step 1:  Read in the source file
-analyze -format sverilog -lib WORK { value_registers.sv}
-elaborate value_registers -lib WORK
+analyze -format sverilog -lib WORK {state_controller.sv value_registers.sv rdata_register.sv address_decoder.sv fixitFSM.sv  ahb_lite_slave.sv}
+elaborate ahb_lite_slave -lib WORK
 uniquify
 # Step 2: Set design constraints
 # Uncomment below to set timing, area, power, etc. constraints
@@ -13,12 +13,12 @@ uniquify
 compile -map_effort medium
 
 # Step 4: Output reports
-report_timing -path full -delay max -max_paths 1 -nworst 1 > reports/value_registers.rep
-report_area >> reports/value_registers.rep
-report_power -hier >> reports/value_registers.rep
+report_timing -path full -delay max -max_paths 1 -nworst 1 > reports/ahb_lite_slave.rep
+report_area >> reports/ahb_lite_slave.rep
+report_power -hier >> reports/ahb_lite_slave.rep
 
 # Step 5: Output final VHDL and Verilog files
-write_file -format verilog -hierarchy -output "mapped/value_registers.v"
+write_file -format verilog -hierarchy -output "mapped/ahb_lite_slave.v"
 echo "\nScript Done\n"
 echo "\nChecking Design\n"
 check_design

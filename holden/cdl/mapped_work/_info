@@ -25,18 +25,18 @@ V73k[[GSh:EAJGQ6_VZJ6N3
 R1
 n@_opt1
 R2
+R0
 T_opt2
-!s110 1556100299
-VCOA2n=D1zLL3<m22di3zK3
-04 11 4 work tb_fixitFSM fast 0
-=1-3417ebaeb8ed-5cc034ca-cf1da-510a
-R1
+!s110 1556113379
+V6l:1m^JDbnYffDBZe8oHJ0
+04 17 4 work tb_ahb_lite_slave fast 0
+=1-f48e388b9714-5cc067e3-167b1-4a30
+o-quiet -auto_acc_if_foreign -work mapped_work -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim +acc
 n@_opt2
 R2
-R0
 vaddress_decoder
 Z3 DXx6 sv_std 3 std 0 22 <EOTafDcUY:cQeO^ICn]m3
-Z4 !s110 1556100178
+Z4 !s110 1556113374
 !i10b 1
 !s100 gRzN`Ng?Q:kL<jR:j;[]i0
 IbP[iml[YP_^]:aM^n]:kY2
@@ -44,7 +44,7 @@ Z5 V`JN@9S9cnhjKRR_L]QIcM3
 Z6 !s105 ahb_lite_slave_v_unit
 S1
 Z7 d/home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl
-Z8 w1556100175
+Z8 w1556113371
 Z9 8mapped/ahb_lite_slave.v
 Z10 Fmapped/ahb_lite_slave.v
 L0 221
@@ -52,7 +52,7 @@ Z11 OL;L;10.3b;59
 r1
 !s85 0
 31
-Z12 !s108 1556100178.340003
+Z12 !s108 1556113374.091899
 Z13 !s107 mapped/ahb_lite_slave.v|
 Z14 !s90 -sv|-work|mapped_work|mapped/ahb_lite_slave.v|
 !i113 0
@@ -82,25 +82,25 @@ R14
 R15
 vfixitFSM
 R3
-Z16 !s110 1556100291
+R4
 !i10b 1
-!s100 SaGDaR0ZCf3^8KV;m@^M72
-I2:Jo]WG=5XFW4ajHoZMXe1
+!s100 4KHIG[5Woe74N0i;>Y7Vm2
+I3ZXIfI^WEk3IdCR[X:0>f3
 R5
-!s105 fixitFSM_v_unit
+R6
 S1
 R7
-w1556100288
-8mapped/fixitFSM.v
-Fmapped/fixitFSM.v
-L0 8
+R8
+R9
+R10
+L0 522
 R11
 r1
 !s85 0
 31
-!s108 1556100291.549662
-!s107 mapped/fixitFSM.v|
-!s90 -sv|-work|mapped_work|mapped/fixitFSM.v|
+R12
+R13
+R14
 !i113 0
 R15
 nfixit@f@s@m
@@ -129,25 +129,25 @@ R14
 R15
 vstate_controller
 R3
-!s110 1556101723
+R4
 !i10b 1
-!s100 aH[j=mC7z1=9]Cf`7>;ma3
-INi_[8`C^TLjan2kICB51g3
+!s100 D?MI2jW>7QaM?G]?2S2Oo1
+IUb4kW97YT``b?GNG:oZmN3
 R5
-!s105 state_controller_v_unit
+R6
 S1
 R7
-w1556101720
-8mapped/state_controller.v
-Fmapped/state_controller.v
+R8
+R9
+R10
 L0 8
 R11
 r1
 !s85 0
 31
-!s108 1556101723.251160
-!s107 mapped/state_controller.v|
-!s90 -sv|-work|mapped_work|mapped/state_controller.v|
+R12
+R13
+R14
 !i113 0
 R15
 vtb_address_decoder
@@ -177,13 +177,13 @@ vtb_ahb_lite_slave
 R3
 R4
 !i10b 1
-!s100 kHPaS^W?V4C]=196ZdWco1
-I?M]`AlX:5m`4PNCQEL=lJ1
+!s100 =na`L9z2F_b5Sj`9UG7Q>3
+ISDZNR^edLl3NCBZLZ^8;V2
 R5
 !s105 tb_ahb_lite_slave_sv_unit
 S1
 R7
-w1556098240
+w1556113354
 8source/tb_ahb_lite_slave.sv
 Fsource/tb_ahb_lite_slave.sv
 L0 3
@@ -191,14 +191,14 @@ R11
 r1
 !s85 0
 31
-!s108 1556100178.689768
+!s108 1556113374.381795
 !s107 source/tb_ahb_lite_slave.sv|
 !s90 -sv|-work|mapped_work|source/tb_ahb_lite_slave.sv|
 !i113 0
 R15
 vtb_fixitFSM
 R3
-R16
+!s110 1556100291
 !i10b 1
 !s100 G9`z4ZH^4JQ5G1Fo4bBWD0
 I8zgkNIi_W]?jO@I^dNnSG0
@@ -268,24 +268,24 @@ r1
 R15
 vvalue_registers
 R3
-!s110 1556102136
+R4
 !i10b 1
-!s100 S>>HzJ=7oGHQZDZlzfk5=0
-I`UjGVOYQRD08QFe;lfg[f3
+!s100 =P3L:B4V9CA2CPmJ6jA=P2
+I28nfBHOSTiT@NbT18Um>W1
 R5
-!s105 value_registers_v_unit
+R6
 S1
 R7
-w1556102133
-8mapped/value_registers.v
-Fmapped/value_registers.v
-L0 8
+R8
+R9
+R10
+L0 71
 R11
 r1
 !s85 0
 31
-!s108 1556102136.522595
-!s107 mapped/value_registers.v|
-!s90 -sv|-work|mapped_work|mapped/value_registers.v|
+R12
+R13
+R14
 !i113 0
 R15
