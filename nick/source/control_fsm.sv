@@ -19,7 +19,9 @@ module control_fsm
 	input logic [15:0] calculated_crc,
 	output logic timer_count_enable,
 	output logic timer_clear,
-	output logic crc_data_out,
+	output logic timer_latch_packet_size,
+	output logic crc_clear,
+	output logic crc_shift,
 	output logic get_tx_packet_data,
 	output logic pts_shift,
 	output logic pts_load,
@@ -54,7 +56,9 @@ always_comb begin
 			if(tx_packet != tx_packet_IDLE) next_state = START_TRANSFER;
 		end
 
-		START_TRANSFER: next_state = SYNC_BYTE;
+		START_TRANSFER: begin
+			next_state = SYNC_BYTE;
+		end
 
 		SYNC_BYTE: begin
 			if(rollover_flag64) next_state = LOAD_PID;
@@ -68,16 +72,12 @@ always_comb begin
 		end
 
 		DATA_PID: begin
-			if(rollover_flag64) next_state = GET_DATA;
-		end
-
-		GET_DATA: begin
-			next_state = SEND_BYTE;
-			if (rollover_flag512) next_state = CRC0;
+			if(rollover_flag64) next_state = LOAD_DATA;
 		end
 
 		LOAD_DATA: begin
 			next_state = SEND_BYTE;
+			if (rollover_flag512) next_state = CRC0;
 		end
 
 		SEND_BYTE: begin
@@ -116,6 +116,9 @@ always_comb begin
 	data_out = '0;
 	eop = 0;
 	get_tx_packet_data = 0;
+	clear_crc = 0;
+	crc_shift = 0;
+	timer_latch_packet_size = 0;
 
 	pts_shift = rollover_flag64 && !stuffing && state != IDLE;
 
@@ -128,6 +131,7 @@ always_comb begin
 			pts_load = 1;
 			data_out = 8'b00000001;
 			timer_clear = 1;
+			timer_latch_packet_size = 1;
 		end
 
 		SYNC_BYTE: begin
@@ -144,9 +148,11 @@ always_comb begin
 
 		DATA_PID: begin
 			if(rollover_flag64) timer_clear = 1;
+			clear_crc = 1;
+			get_tx_packet_data = 1;
 		end
 
-		GET_DATA: begin
+		/*GET_DATA: begin
 			timer_count_enable = 0; // Maybe needed, maybe not. 
 						// Want to make sure timer counts 
 						// to correct value fo 8, and counting 
@@ -160,14 +166,25 @@ always_comb begin
 				pts_load = 1;
 			end
 			
-		end
+		end*/
 
 		LOAD_DATA: begin
-			timer_count_enable = 0;
+			//timer_count_enable = 0;
 			data_out = tx_packet_data;
+
+			if(rollover_flag512) begin
+				data_out = calculated_crc[7:0];
+			end
+
+			pts_load = 1;
 		end
 
 		SEND_BYTE: begin
+			if(rollover_flag64 && !stuffing)
+				get_tx_packet_data = 1;
+
+			if(rollover_flag8)
+				crc_shift = 1;
 		end
 
 		CRC0: begin 
