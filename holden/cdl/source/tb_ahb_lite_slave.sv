@@ -324,7 +324,7 @@ initial begin
 
 
 	//*****************************************************************************
-	// Power-on-Reset Test Case
+	// Power-on-Reset Test Case (#0)
   	//*****************************************************************************
   	// Update Navigation Info
   	tb_test_case     = "Power-on-Reset";
@@ -334,10 +334,10 @@ initial begin
   	reset_dut();
 
   //*****************************************************************************
-  // Test Case: Singleton Write
+  // Test Case: Write to Read Only (#1)
   //*****************************************************************************
   // Update Navigation Info
-  tb_test_case     = "Single Word Write";
+  tb_test_case     = "Write to Read Only";
   tb_test_case_num = tb_test_case_num + 1;
 
   // Reset the DUT to isolate from prior test case
@@ -352,10 +352,10 @@ initial begin
 
 
   //*****************************************************************************
-  // Test Case: Back-to-Back Write/Read
+  // Test Case: Write to Nonexistent Register (#2)
   //*****************************************************************************
   // Update Navigation Info
-  tb_test_case     = "Back to back Write/Read";
+  tb_test_case     = "Write to Nonexistent Register";
   tb_test_case_num = tb_test_case_num + 1;
 
   // Reset the DUT to isolate from prior test case
@@ -370,13 +370,14 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(2);
-
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
   
   //*****************************************************************************
-  // Test Case: INCR4 Burst
+  // Test Case: Tseting almost all errors with for a write (#3)
   //*****************************************************************************
   // Update Navigation Info
-  tb_test_case     = "INCR4 Bursts";
+  tb_test_case     = "Testing All Errors for a Write";
   tb_test_case_num = tb_test_case_num + 1;
 
   // Reset the DUT to isolate from prior test case
@@ -395,12 +396,15 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(8);
-  
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+
   //*****************************************************************************
-  // Test Case: INCR8 Burst
+  // Test Case: Cause Errors trying to read a size that is too large (#4)
   //*****************************************************************************
   // Update Navigation Info
-  tb_test_case     = "INCR8 Bursts";
+  tb_test_case     = "Read Too Large for Register";
   tb_test_case_num = tb_test_case_num + 1;
 
   // Reset the DUT to isolate from prior test case
@@ -419,16 +423,21 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(16);
-  
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
   //*****************************************************************************
-  // Test Case: INCR16 Burst
+  // Test Case: Testing 1 byte reads to status register
   //*****************************************************************************
   // Update Navigation Info
-  tb_test_case     = "INCR16 Bursts";
+  tb_test_case     = "1 Byte Reads to Status Register";
   tb_test_case_num = tb_test_case_num + 1;
 
   // Reset the DUT to isolate from prior test case
   reset_dut();
+
+  // Set some made up status register value to test
+  tb_rxDataReady = 1'b1;
 
   // Enqueue the needed transactions
   // Create the Test Data for the burst
@@ -437,13 +446,16 @@ initial begin
     tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
   end
   // Enqueue the write
-  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_INCR16, 1'b0, 2'd2);
+  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_INCR16, 1'b0, 2'd1);
   // Enqueue the 'check' read
-  enqueue_transaction(1'b1, 1'b0, 8'd64, tb_test_data, BURST_INCR16, 1'b0, 2'd2);
+  enqueue_transaction(1'b1, 1'b0, 8'd64, tb_test_data, BURST_INCR16, 1'b0, 2'd1);
   
   // Run the transactions via the model
   execute_transactions(32);
-  
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+  tb_rxDataReady = 1'b1;
+
   //*****************************************************************************
   // Test Case: WRAP4 Burst
   //*****************************************************************************
@@ -467,6 +479,8 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(8);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
   
   //*****************************************************************************
   // Test Case: WRAP8 Burst
@@ -491,6 +505,8 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(16);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
   
   //*****************************************************************************
   // Test Case: WRAP16 Burst
@@ -515,6 +531,8 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(32);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
 
 
   //*****************************************************************************
@@ -540,7 +558,8 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(14);
-  
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
   
   //*****************************************************************************
   // Test Case: Erroneous Singleton Write
@@ -558,6 +577,8 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(1);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
 
 
 //*****************************************************************************
@@ -576,6 +597,8 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(1);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
 
 
   //*****************************************************************************
@@ -599,7 +622,9 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(8);
-  
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
   //*****************************************************************************
   // Test Case: Erroneous INCR4 Read Burst
   //*****************************************************************************
@@ -621,6 +646,25 @@ initial begin
   
   // Run the transactions via the model
   execute_transactions(8);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 end

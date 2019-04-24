@@ -1,24 +1,24 @@
 # Step 1:  Read in the source file
-analyze -format sverilog -lib WORK { address_decoder.sv}
-elaborate address_decoder -lib WORK
+analyze -format sverilog -lib WORK { value_registers.sv}
+elaborate value_registers -lib WORK
 uniquify
 # Step 2: Set design constraints
 # Uncomment below to set timing, area, power, etc. constraints
 # set_max_delay <delay> -from "<input>" -to "<output>"
 # set_max_area <area>
 # set_max_total_power <power> mW
- create_clock "clk" -name "clk" -period 9
+ create_clock "clk" -name "clk" -period 10
 
 # Step 3: Compile the design
 compile -map_effort medium
 
 # Step 4: Output reports
-report_timing -path full -delay max -max_paths 1 -nworst 1 > reports/address_decoder.rep
-report_area >> reports/address_decoder.rep
-report_power -hier >> reports/address_decoder.rep
+report_timing -path full -delay max -max_paths 1 -nworst 1 > reports/value_registers.rep
+report_area >> reports/value_registers.rep
+report_power -hier >> reports/value_registers.rep
 
 # Step 5: Output final VHDL and Verilog files
-write_file -format verilog -hierarchy -output "mapped/address_decoder.v"
+write_file -format verilog -hierarchy -output "mapped/value_registers.v"
 echo "\nScript Done\n"
 echo "\nChecking Design\n"
 check_design

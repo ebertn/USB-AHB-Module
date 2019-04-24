@@ -110,6 +110,7 @@ endtask
 task check_outputs;
   input string check_tag;
 begin
+  @(negedge tb_clk);
   tb_mismatch = 1'b0;
   tb_check    = 1'b1;
   if (tb_expected_statusData != tb_statusData) begin // Check failed
@@ -296,7 +297,7 @@ initial begin
 	#(CLK_PERIOD);
 	
 	// Set and check the expected output
-	tb_expected_statusData = 16'h0100;
+	tb_expected_statusData = 16'h0300;
 	tb_expected_errorData = 16'h0000;
 	tb_expected_boData = 8'h01;
 	tb_expected_ehtsData = 8'h12;

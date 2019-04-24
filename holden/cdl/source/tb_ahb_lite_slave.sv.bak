@@ -324,7 +324,7 @@ initial begin
 
 
 	//*****************************************************************************
-	// Power-on-Reset Test Case
+	// Power-on-Reset Test Case (#0)
   	//*****************************************************************************
   	// Update Navigation Info
   	tb_test_case     = "Power-on-Reset";
@@ -333,8 +333,317 @@ initial begin
 	// Reset the DUT
   	reset_dut();
 
+  //*****************************************************************************
+  // Test Case: Write to Read Only (#1)
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Write to Read Only";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  tb_test_data = '{32'd1000}; 
+  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_SINGLE, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(1);
 
 
+  //*****************************************************************************
+  // Test Case: Write to Nonexistent Register (#2)
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Write to Nonexistent Register";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  tb_test_data = '{32'hADAD8000};
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd70, tb_test_data, BURST_SINGLE, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd70, tb_test_data, BURST_SINGLE, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(2);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+  
+  //*****************************************************************************
+  // Test Case: Tseting almost all errors with for a write (#3)
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Testing All Errors for a Write";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[4];
+  for(tb_i = 0; tb_i < 4; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_INCR4, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd64, tb_test_data, BURST_INCR4, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(8);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+
+  //*****************************************************************************
+  // Test Case: Cause Errors trying to read a size that is too large (#4)
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Read Too Large for Register";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[8];
+  for(tb_i = 0; tb_i < 8; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_INCR8, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd64, tb_test_data, BURST_INCR8, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(16);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+  //*****************************************************************************
+  // Test Case: INCR16 Burst (#5)
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "INCR16 Bursts";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[16];
+  for(tb_i = 0; tb_i < 16; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_INCR16, 1'b0, 2'd1);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd64, tb_test_data, BURST_INCR16, 1'b0, 2'd1);
+  
+  // Run the transactions via the model
+  execute_transactions(32);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+  
+  //*****************************************************************************
+  // Test Case: WRAP4 Burst
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "WRAP4 Bursts";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[4];
+  for(tb_i = 0; tb_i < 4; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd68, tb_test_data, BURST_WRAP4, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd68, tb_test_data, BURST_WRAP4, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(8);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+  
+  //*****************************************************************************
+  // Test Case: WRAP8 Burst
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "WRAP8 Bursts";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[8];
+  for(tb_i = 0; tb_i < 8; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd68, tb_test_data, BURST_WRAP8, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd68, tb_test_data, BURST_WRAP8, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(16);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+  
+  //*****************************************************************************
+  // Test Case: WRAP16 Burst
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "WRAP16 Bursts";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[16];
+  for(tb_i = 0; tb_i < 16; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd68, tb_test_data, BURST_WRAP16, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd68, tb_test_data, BURST_WRAP16, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(32);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+
+  //*****************************************************************************
+  // Test Case: INCR Burst
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "INCR Bursts";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[7];
+  for(tb_i = 0; tb_i < 7; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd64, tb_test_data, BURST_INCR, 1'b0, 2'd2);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, 8'd64, tb_test_data, BURST_INCR, 1'b0, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(14);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+  
+  //*****************************************************************************
+  // Test Case: Erroneous Singleton Write
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Erroneous Single Word Write";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  tb_test_data = '{32'd1000}; 
+  enqueue_transaction(1'b1, 1'b1, 8'd32, tb_test_data, BURST_SINGLE, 1'b1, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(1);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+
+//*****************************************************************************
+  // Test Case: Erroneous Singleton Read
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Erroneous Single Word Read";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  tb_test_data = '{32'd1000}; 
+  enqueue_transaction(1'b1, 1'b0, 8'd128, tb_test_data, BURST_SINGLE, 1'b1, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(1);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+
+  //*****************************************************************************
+  // Test Case: Erroneous INCR4 Write Burst
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Erroneous INCR4 Write Burst";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[4];
+  for(tb_i = 0; tb_i < 4; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, 8'd32, tb_test_data, BURST_INCR4, 1'b1, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(8);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
+
+  //*****************************************************************************
+  // Test Case: Erroneous INCR4 Read Burst
+  //*****************************************************************************
+  // Update Navigation Info
+  tb_test_case     = "Erroneous INCR4 Read Burst";
+  tb_test_case_num = tb_test_case_num + 1;
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  // Enqueue the needed transactions
+  // Create the Test Data for the burst
+  tb_test_data = new[4];
+  for(tb_i = 0; tb_i < 4; tb_i++)begin
+    tb_test_data[tb_i] = {16'hABCD,tb_i[15:0]};
+  end
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b0, 8'd128, tb_test_data, BURST_INCR4, 1'b1, 2'd2);
+  
+  // Run the transactions via the model
+  execute_transactions(8);
+  // Wait a few cycles for isolation
+  #(CLK_PERIOD * 10);
 
 
 

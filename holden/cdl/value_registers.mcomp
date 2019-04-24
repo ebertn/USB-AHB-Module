@@ -1,0 +1,9 @@
+QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
+Start time: 06:39:11 on Apr 24,2019
+vlog -sv -work mapped_work source/tb_value_registers.sv 
+-- Compiling module tb_value_registers
+
+Top level modules:
+	tb_value_registers
+End time: 06:39:11 on Apr 24,2019, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

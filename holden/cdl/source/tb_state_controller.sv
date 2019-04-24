@@ -25,7 +25,7 @@ logic tb_expected_storeTxData;
 logic tb_expected_getRxData;
 logic tb_expected_hresp;
 logic tb_expected_hready;
-logic tb_expected_bufferReserved;
+logic tb_expected_txPacketSizeChanged;
 
 
 //**************************************************************
@@ -50,7 +50,7 @@ logic tb_getRxData;
 logic tb_hresp;
 logic tb_hready;
 logic [1:0] tb_dataSize;
-logic tb_bufferReserved;
+logic tb_txPacketSizeChanged;
 
 
 //**************************************************************
@@ -83,7 +83,7 @@ state_controller DUT (
 	.hresp(tb_hresp),
 	.hready(tb_hready),
 	.dataSize(tb_dataSize),
-	.bufferReserved(tb_bufferReserved)
+	.txPacketSizeChanged(tb_txPacketSizeChanged)
 );
 
 
@@ -145,9 +145,9 @@ begin
     tb_mismatch = 1'b1;
     $error("Incorrect 'dataSize' output %s during %s test case", check_tag, tb_test_case);
   end
-  if (tb_expected_bufferReserved != tb_bufferReserved) begin // Check failed
+  if (tb_expected_txPacketSizeChanged != tb_txPacketSizeChanged) begin // Check failed
     tb_mismatch = 1'b1;
-    $error("Incorrect 'bufferReserved' output %s during %s test case", check_tag, tb_test_case);
+    $error("Incorrect 'txPacketSizeChanged' output %s during %s test case", check_tag, tb_test_case);
   end
   // Wait some small amount of time so check pulse timing is visible on waves
   #(0.1);
@@ -211,6 +211,7 @@ initial begin
 	tb_expected_getRxData  		= 1'b0;
 	tb_expected_hresp			= 1'b0;
 	tb_expected_hready			= 1'b1;
+	tb_expected_txPacketSizeChanged = 1'b0;
 
 	// Wait some time before starting first test case
 	#(0.1);
@@ -263,6 +264,7 @@ initial begin
 	tb_expected_storeTxData = 1'b0;
 
 	// set inputs
+	tb_expected_txPacketSizeChanged = 1'b1;
 	write_data(7'h48, 2'b00);
 	
 	// Set and check the expected output
@@ -270,6 +272,7 @@ initial begin
 
 	// Give some visual spacing between check and next test case start
 	#(CLK_PERIOD * 2);
+	tb_expected_txPacketSizeChanged = 1'b0;
 
 
 	//*****************************************************************************
@@ -328,7 +331,6 @@ initial begin
 
 	// Give some visual spacing between check and next test case start
 	#(CLK_PERIOD * 2);
-
 
 	//*****************************************************************************
 	// Test Case: Error Test

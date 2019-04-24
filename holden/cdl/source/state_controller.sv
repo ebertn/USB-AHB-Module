@@ -14,7 +14,7 @@ module state_controller (
 	output reg hresp,
 	output reg hready,
 	output wire [1:0] dataSize,
-	output reg txPacketSizeChanged
+	output logic txPacketSizeChanged
 );
 
 // localparams
@@ -28,7 +28,7 @@ reg [1:0] nextState;
 
 // Small Assignments
 assign dataSize = hsize;
-assign hresp = ((state == ERROR) | (nextState == ERROR)) ? 1'b1 : 1'b0;
+assign hresp = ((state == ERROR) || (nextState == ERROR)) ? 1'b1 : 1'b0;
 assign hready = (nextState == ERROR) ? 1'b0 : 1'b1;
 
 // Next State Logic
@@ -38,15 +38,15 @@ always_comb begin
 	nextState = IDLE;
 	txPacketSizeChanged = 1'b0;
 
-	if (hsel && htrans != IDLE) begin
+	if (hsel && (htrans != IDLE)) begin
 		if (hsize == 2'b11) begin
 			nextState = ERROR;
 			
 		end else if (hwrite) begin
-			if (haddr >= 7'h00 && haddr < 7'h40) begin
+			if ((haddr >= 7'h00) && (haddr < 7'h40)) begin
 				storeTxData = 1'b1;
 				nextState = WRITE;
-			end else if (haddr == 7'h48 && hsize == 2'b00) begin
+			end else if ((haddr == 7'h48) && (hsize == 2'b00)) begin
 				nextState = WRITE;
 				txPacketSizeChanged = 1'b1;
 			end else begin
@@ -54,14 +54,14 @@ always_comb begin
 			end
 			
 		end else if (!hwrite) begin
-			if (haddr >= 7'h00 && haddr < 7'h40) begin
+			if ((haddr >= 7'h00) && (haddr < 7'h40)) begin
 				getRxData = 1'b1;
 				nextState = READ;
-			end else if ((haddr == 7'h40 || haddr == 7'h41) && (hsize == 2'b01 || hsize == 2'b00)) begin
+			end else if (((haddr == 7'h40) || (haddr == 7'h41)) && ((hsize == 2'b01) || (hsize == 2'b00))) begin
 				nextState = READ;
-			end else if ((haddr == 7'h42 || haddr == 7'h43) && (hsize == 2'b01 || hsize == 2'b00)) begin
+			end else if (((haddr == 7'h42) || (haddr == 7'h43)) && ((hsize == 2'b01) || (hsize == 2'b00))) begin
 				nextState = READ;
-			end else if ((haddr == 7'h44 || haddr == 7'h48) && (hsize == 2'b00)) begin
+			end else if (((haddr == 7'h44) || (haddr == 7'h48)) && (hsize == 2'b00)) begin
 				nextState = READ;
 			end else begin
 				nextState = ERROR;
