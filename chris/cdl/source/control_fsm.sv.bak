@@ -120,7 +120,7 @@ module control_fsm
 			DATA3:begin
 				if(byte_count == 1'b1) begin
 					next_packet_data = temp_holding[7:0];
-					next-temp_holding = {temp_holding[7:0], packet_in};
+					next_temp_holding = {temp_holding[7:0], packet_in};
 					next_state = DATA4;
 				end
 				else if (eop == 1'b1) begin

@@ -141,6 +141,12 @@ module control_fsm
 				end else begin
 					next_state = DATA4; 
 				end
+				if (sixteen_crc == 1'b1 && eop == 1'b1) begin
+					sixteen_crc_clear = 1'b1; 
+					next_rx_packet = 3'b011; 
+				end else begin
+					sixteen_crc_clear = 1'b0; 
+				end 
 			end
 			EOP:begin
 				//store_rx_data = 1'b1; 

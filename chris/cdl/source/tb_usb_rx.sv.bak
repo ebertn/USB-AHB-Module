@@ -252,6 +252,7 @@ initial begin
 	eop(); 
 	//check_shit2(8'b11110000, tb_rx_packet_data);
 	check_shit2(8'b11010011, tb_rx_packet_data); 
+	check_shit3({5'b00000, 3'b011}, tb_rx_packet); 
 	
 end
 endmodule

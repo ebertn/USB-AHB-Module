@@ -9,8 +9,9 @@
 # //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
 # //
 # vsim -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB "+no_glitch_msg" -coverage -voptargs="+acc" -i -t ps source_work.tb_usb_rx 
-# Start time: 11:52:11 on Apr 24,2019
+# Start time: 12:13:56 on Apr 24,2019
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Note: (vopt-143) Recognized 1 FSM in module "control_fsm(fast)".
 # Loading sv_std.std
 # Loading work.tb_usb_rx(fast)
 # Loading work.usb_rx(fast)
@@ -31,5 +32,7 @@ run 3000 ns
 #    Time: 750 ns  Scope: tb_usb_rx.check_shit File: source/tb_usb_rx.sv Line: 102
 # ** Info: Correct Data Byte
 #    Time: 1200 ns  Scope: tb_usb_rx.check_shit2 File: source/tb_usb_rx.sv Line: 113
-# End time: 11:53:20 on Apr 24,2019, Elapsed time: 0:01:09
+# ** Error: Incorrect CRC Value
+#    Time: 1200 ns  Scope: tb_usb_rx.check_shit3 File: source/tb_usb_rx.sv Line: 126
+# End time: 12:14:38 on Apr 24,2019, Elapsed time: 0:00:42
 # Errors: 0, Warnings: 1

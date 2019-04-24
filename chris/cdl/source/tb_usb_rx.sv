@@ -117,8 +117,8 @@ begin
 end 
 endtask
 task check_shit3;
-input logic  expected; 
-input logic  actual; 
+input logic [7:0] expected; 
+input logic  [7:0]  actual; 
 begin
 	if(expected == actual)begin
 		$info("Correct CRC Value"); 
@@ -252,7 +252,7 @@ initial begin
 	eop(); 
 	//check_shit2(8'b11110000, tb_rx_packet_data);
 	check_shit2(8'b11010011, tb_rx_packet_data); 
-	
+	check_shit3({5'b00000, 3'b011}, tb_rx_packet); 
 	
 end
 endmodule
