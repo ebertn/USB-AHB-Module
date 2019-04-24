@@ -28,21 +28,25 @@ module tb_usb_tx();
    reg tb_clk;
    reg tb_n_rst;
    reg tb_get_tx_packet_data;
-   reg [7:0] tx_packet_data;
-   reg [6:0] tx_packet_data_size;
-   reg [2:0] tx_packet;
-   reg tx_status;
-   reg d_plus_out;
-   reg d_minus_out;
+   reg [7:0] tb_tx_packet_data;
+   reg [6:0] tb_tx_packet_data_size;
+   reg [2:0] tb_tx_packet;
+   reg tb_tx_status;
+   reg tb_d_plus_out;
+   reg tb_d_minus_out;
    
    //test bench signals
    int tb_test_num;
    string tb_test_case;
    reg [7:0][63:0] data_to_send;
    reg [7:0] 	   sync_byte = 8'b00000001;
-   reg [7:0] 	   expected_d_plus_out;
-   reg [7:0] 	   expected_d_minus_out;
-         
+   reg [7:0] 	   expected_tb_d_plus_out;
+   reg [7:0] 	   expected_tb_d_minus_out;
+   reg [15:0] 	   crc;
+   int 		   count1;
+   int 		   count2;
+   logic [7:0] 	   data_for_crc;
+               
    /////////////////////
    // reset procedure //
    /////////////////////
@@ -66,12 +70,12 @@ module tb_usb_tx();
    // checks outputs against expected values //
    ////////////////////////////////////////////
    task check_output;
+      input logic expected_value;
+      input logic test_value;
+      input string signal_name;
+      input string extra_info;
+      
       begin
-	 input logic expected_value;
-	 input logic test_value;
-	 input string signal_name;
-	 input string extra_info;
-	 	 	 
 	 if (test_value == expected_value)
 	   begin
 	      $info("Output %s correct for test case %d %s", signal_name, tb_test_num, extra_info);
@@ -118,18 +122,19 @@ module tb_usb_tx();
 	 tb_tx_packet_data_size = data_size_input;
 
 	 //sync byte transmission
-	 encode_output(sync_byte)
+	 encode_output(sync_byte);
 	 for (x=0; x<7; x++)
 	   begin
 	      @ (posedge tb_clk);
-	      check_output(expected_d_plus_out[x], tb_d_plus_out, "d_plus_out", "for sync byte transmission");
-	      check_output(expected_d_minus_out[x], tb_d_minus_out, "d_minus_out", "for sync byte transmission");
+	      check_output(expected_tb_d_plus_out[x], tb_d_plus_out, "d_plus_out", "for sync byte transmission");
+	      check_output(expected_tb_d_minus_out[x], tb_d_minus_out, "d_minus_out", "for sync byte transmission");
 	   end
 
 	 //regular transmission (includes ACK and NACK)
 	 for (x=0; x<data_size_input; x++)
 	   begin
 	      tb_tx_packet_data = packet_data_input[x];
+	      encode_output(tb_tx_packet_data);
 	      for(i=0; i<8; i++)
 		begin
 		   @ (posedge tb_clk)
@@ -139,7 +144,18 @@ module tb_usb_tx();
 	   end
 	 	
 	 //CRC stuff
- 
+	 for (x=0; x<2; x++)
+	   begin
+	      encode_output(crc[x]);
+	      for (i=0; i<8; i++)
+		begin
+		   @ (posedge tb_clk);
+		   check_output(expected_tb_d_plus_out, tb_d_plus_out, "d_plus_out", "for CRC bits");
+		   check_output(expected_tb_d_minus_out, tb_d_minus_out, "d_minus_out", "for CRC bits");
+		end
+	   end
+	 
+	 @ (posedge tb_clk);
 	 check_output(1'b1, tb_tx_status, "tx_status", "for EOP signal");
       end
    endtask // send_signal
@@ -150,12 +166,13 @@ module tb_usb_tx();
    task encode_output;
       input logic [7:0] serial_in;
 
+      logic [7:0] 	encoded_out;
       int 		x;
             
       begin
-	 expected_d_plus_out[0] = 1'b1;
-	 expected_d_minus_out[0] = 1'b0;
-	 for (x=1, x<8; x++)
+	 expected_tb_d_plus_out[0] = 1'b1;
+	 expected_tb_d_minus_out[0] = 1'b0;
+	 for (x = 1; x < 8; x++)
 	   begin
 	      @ (posedge tb_clk);
 	      if (serial_in[x] == 1'b0)
@@ -167,10 +184,47 @@ module tb_usb_tx();
 		   encoded_out[x] = encoded_out[x-1];
 		end
 	   end // for (x=1, x<8; x++)
-	 expected_d_plus_out = encoded_out;
-	 expected_d_minus_out = !encoded_out;
+	 expected_tb_d_plus_out = encoded_out;
+	 expected_tb_d_minus_out = !encoded_out;
       end
    endtask // encode_output
+
+   ////////////////////
+   // CRC generation //
+   ////////////////////
+   task generate_crc;
+      input logic d_in;
+      
+      int i;
+      logic xor1;
+      logic xor2;
+      logic xor3;
+            
+      begin
+	 xor3 = d_in ^ crc[15];
+	 xor2 = crc[14] ^ xor3;
+	 xor1 = crc[1] ^ xor3;
+	 
+	 crc[15] = xor2;
+	 crc[14] = crc[13];
+	 crc[13] = crc[12];
+	 crc[12] = crc[11];
+	 crc[11] = crc[10];
+	 crc[10] = crc[9];
+	 crc[9] = crc[8];
+	 crc[8] = crc[7];
+	 crc[7] = crc[6];
+	 crc[6] = crc[5];
+	 crc[5] = crc[4];
+	 crc[4] = crc[3];
+	 crc[3] = crc[2];
+	 crc[2] = xor1;
+	 crc[1] = crc[0];
+	 crc[1] = xor3;
+      end
+   endtask // generate_crc
+   
+	 
         
    //////////////////////
    // Clock Generation //
@@ -191,8 +245,8 @@ module tb_usb_tx();
 	       .tx_packet_data_size(tb_tx_packet_data_size),
 	       .tx_packet(tb_tx_packet),
 	       .tx_status(tb_tx_status),
-	       .d_plus_out(tb_d_plus_out),
-	       .d_minus_out(tb_d_minus_out));
+	       .dplus_out(tb_d_plus_out),
+	       .dminus_out(tb_d_minus_out));
 
    /////////////////////                                       /////////////////////////////////////////////
    // testing process //                                       // test case guide //////////////////////////
@@ -214,7 +268,7 @@ module tb_usb_tx();
                                                                // test case 15: 40 byte data transmission //
 	tb_test_num += 1;                                      // test case 16: 48 byte data transmission //
 	tb_test_case = "Power on reset";                       // test case 17: 56 byte data transmission //
-	#0.1;                                                  // test case 18: 63 byte data transmission //
+	#0.1;                                                  // test case 18: 64 byte data transmission //
                                                                /////////////////////////////////////////////
 	tb_n_rst = 1'b0;
 	tb_tx_packet = 'b0;
@@ -254,15 +308,26 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000001;
 	data_to_send = 0;
-		
+	crc = 0;
+			
 	reset_dut();
 
 	@ (posedge tb_clk);
 	@ (posedge tb_clk);
 	data_to_send[0] = NACK_CODE;
 	@ (posedge tb_clk);
+
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
 	
 	send_signal(SEND_NACK, data_to_send, 7'b0000001);
 
@@ -278,8 +343,9 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000001;
 	data_to_send = 0;
+	crc = 0;
 		
 	reset_dut();
 
@@ -288,6 +354,16 @@ module tb_usb_tx();
 	data_to_send[0] = ACK_CODE;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_ACK, data_to_send, 7'b0000001);
 
 	@ (posedge tb_clk);
@@ -302,8 +378,9 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000001;
 	data_to_send = 0;
+	crc = 0;
 	
 	reset_dut();
 	
@@ -312,6 +389,16 @@ module tb_usb_tx();
 	data_to_send[0] = 8'b01100111;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000001);
 
 	@ (posedge tb_clk);
@@ -326,9 +413,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000010;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -337,6 +425,16 @@ module tb_usb_tx();
 	data_to_send[1] = 8'b11100110;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000010);
 
 	@ (posedge tb_clk);
@@ -351,9 +449,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000011;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -363,6 +462,16 @@ module tb_usb_tx();
 	data_to_send[2] = 8'b11110000;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000011);
 
 	@ (posedge tb_clk);
@@ -377,9 +486,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000100;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -390,6 +500,16 @@ module tb_usb_tx();
 	data_to_send[3] = 8'b11011100;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000100);
 
 	@ (posedge tb_clk);
@@ -404,9 +524,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000101;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -418,6 +539,16 @@ module tb_usb_tx();
 	data_to_send[4] = 8'b00100100;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000101);
 
 	@ (posedge tb_clk);
@@ -432,9 +563,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000110;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -447,6 +579,16 @@ module tb_usb_tx();
 	data_to_send[5] = 8'b10000110;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000110);
 
 	@ (posedge tb_clk);
@@ -461,9 +603,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0000111;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -477,6 +620,16 @@ module tb_usb_tx();
 	data_to_send[6] = 8'b10000110;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0000111);
 
 	@ (posedge tb_clk);
@@ -491,9 +644,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0001000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -508,6 +662,16 @@ module tb_usb_tx();
 	data_to_send[7] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0001000);
 
 	@ (posedge tb_clk);
@@ -522,9 +686,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0010000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -547,6 +712,16 @@ module tb_usb_tx();
 	data_to_send[15] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0010000);
 
 	@ (posedge tb_clk);
@@ -561,9 +736,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0011000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -594,6 +770,16 @@ module tb_usb_tx();
 	data_to_send[23] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0011000);
 
 	@ (posedge tb_clk);
@@ -608,9 +794,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0100000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -649,6 +836,16 @@ module tb_usb_tx();
 	data_to_send[31] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0100000);
 
 	@ (posedge tb_clk);
@@ -663,9 +860,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0101000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -712,6 +910,16 @@ module tb_usb_tx();
 	data_to_send[39] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0101000);
 
 	@ (posedge tb_clk);
@@ -726,9 +934,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0110000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -783,6 +992,16 @@ module tb_usb_tx();
 	data_to_send[47] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0110000);
 
 	@ (posedge tb_clk);
@@ -797,9 +1016,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b0111000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -862,6 +1082,16 @@ module tb_usb_tx();
 	data_to_send[55] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b0111000);
 
 	@ (posedge tb_clk);
@@ -876,9 +1106,10 @@ module tb_usb_tx();
 	tb_get_tx_packet_data = 'b0;
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 'b0;
+	tb_tx_packet_data_size = 7'b1000000;
 	data_to_send = 0;
-
+	crc = 0;
+	
 	reset_dut();
 
 	@ (posedge tb_clk);
@@ -949,6 +1180,16 @@ module tb_usb_tx();
 	data_to_send[63] = 8'b11011010;
 	@ (posedge tb_clk);
 
+	for (count1=0; count1<tb_tx_packet_data_size; count1++)
+	  begin
+	     data_for_crc = data_to_send[count1];
+	     for (count2=0; count2<8; count2++)
+	       begin
+		  @ (posedge tb_clk);
+		  generate_crc(data_for_crc[count2]);
+	       end
+	  end
+	
 	send_signal(SEND_DATA, data_to_send, 7'b1000000);
 
 	@ (posedge tb_clk);
