@@ -125,7 +125,7 @@ module tb_usb_tx();
 	 encode_output(sync_byte);
 	 for (x=0; x<7; x++)
 	   begin
-	      @ (posedge tb_clk);
+	      delay(8);
 	      check_output(expected_tb_d_plus_out[x], tb_d_plus_out, "d_plus_out", "for sync byte transmission");
 	      check_output(expected_tb_d_minus_out[x], tb_d_minus_out, "d_minus_out", "for sync byte transmission");
 	   end
@@ -137,7 +137,7 @@ module tb_usb_tx();
 	      encode_output(tb_tx_packet_data);
 	      for(i=0; i<8; i++)
 		begin
-		   @ (posedge tb_clk)
+		   delay(8);
 		   check_output(expected_tb_d_plus_out, tb_d_plus_out, "d_plus_out", tb_test_case);
 		   check_output(expected_tb_d_minus_out, tb_d_minus_out, "d_minus_out", tb_test_case);
 		end
@@ -149,13 +149,13 @@ module tb_usb_tx();
 	      encode_output(crc[x]);
 	      for (i=0; i<8; i++)
 		begin
-		   @ (posedge tb_clk);
+		   delay(8);
 		   check_output(expected_tb_d_plus_out, tb_d_plus_out, "d_plus_out", "for CRC bits");
 		   check_output(expected_tb_d_minus_out, tb_d_minus_out, "d_minus_out", "for CRC bits");
 		end
 	   end
 	 
-	 @ (posedge tb_clk);
+	 delay(8);
 	 check_output(1'b1, tb_tx_status, "tx_status", "for EOP signal");
       end
    endtask // send_signal
@@ -174,7 +174,7 @@ module tb_usb_tx();
 	 expected_tb_d_minus_out[0] = 1'b0;
 	 for (x = 1; x < 8; x++)
 	   begin
-	      @ (posedge tb_clk);
+	      delay(8);
 	      if (serial_in[x] == 1'b0)
 		begin
 		   encoded_out[x] = !encoded_out[x-1];
@@ -224,8 +224,21 @@ module tb_usb_tx();
       end
    endtask // generate_crc
    
-	 
-        
+   //////////////////////
+   // delays operation //
+   //////////////////////
+   task delay;
+      input int delay_num;
+      int 	x;
+      
+      begin
+	 for (x=0; x<delay_num; x++)
+	   begin
+	      @ (posedge tb_clk);
+	   end
+      end
+   endtask // delay
+           
    //////////////////////
    // Clock Generation //
    //////////////////////
