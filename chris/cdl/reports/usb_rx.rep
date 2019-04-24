@@ -7,7 +7,7 @@ Report : timing
         -max_paths 1
 Design : usb_rx
 Version: K-2015.06-SP1
-Date   : Wed Apr 24 11:04:42 2019
+Date   : Wed Apr 24 11:54:13 2019
 ****************************************
 
 Operating Conditions: typical   Library: osu05_stdcells
@@ -25,24 +25,27 @@ Wire Load Model Mode: top
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.00       0.00
   TIME/BYTE/r_flag_reg/CLK (DFFSR)                        0.00       0.00 r
-  TIME/BYTE/r_flag_reg/Q (DFFSR)                          0.85       0.85 f
+  TIME/BYTE/r_flag_reg/Q (DFFSR)                          1.02       1.02 f
   TIME/BYTE/rollover_flag (flex_counter_NUM_CNT_BITS4)
-                                                          0.00       0.85 f
-  TIME/byte_count (timer)                                 0.00       0.85 f
-  SR/byte_done (sr_8bit)                                  0.00       0.85 f
-  SR/U19/Y (INVX2)                                        0.23       1.08 r
-  SR/U6/Y (NOR2X1)                                        0.53       1.60 f
-  SR/packet_data[3] (sr_8bit)                             0.00       1.60 f
-  FSM/packet_in[3] (control_fsm)                          0.00       1.60 f
-  FSM/U94/Y (XNOR2X1)                                     0.26       1.87 f
-  FSM/U92/Y (NAND3X1)                                     0.18       2.04 r
-  FSM/U90/Y (NOR2X1)                                      0.24       2.28 f
-  FSM/U79/Y (OAI22X1)                                     0.22       2.51 r
-  FSM/U10/Y (INVX2)                                       0.13       2.64 f
-  FSM/U50/Y (OAI21X1)                                     0.14       2.78 r
-  FSM/U48/Y (OR2X1)                                       0.17       2.95 r
-  FSM/state_reg[2]/D (DFFSR)                              0.00       2.95 r
-  data arrival time                                                  2.95
+                                                          0.00       1.02 f
+  TIME/byte_count (timer)                                 0.00       1.02 f
+  SR/byte_done (sr_8bit)                                  0.00       1.02 f
+  SR/U19/Y (INVX2)                                        0.26       1.28 r
+  SR/U5/Y (NOR2X1)                                        0.47       1.75 f
+  SR/packet_data[4] (sr_8bit)                             0.00       1.75 f
+  FSM/packet_in[4] (control_fsm)                          0.00       1.75 f
+  FSM/U201/Y (NAND3X1)                                    0.32       2.07 r
+  FSM/U200/Y (NOR2X1)                                     0.22       2.29 f
+  FSM/U188/Y (NAND3X1)                                    0.21       2.50 r
+  FSM/U187/Y (OAI21X1)                                    0.10       2.60 f
+  FSM/U186/Y (NOR2X1)                                     0.15       2.76 r
+  FSM/U180/Y (NAND2X1)                                    0.14       2.89 f
+  FSM/U165/Y (OAI22X1)                                    0.22       3.11 r
+  FSM/U43/Y (INVX2)                                       0.13       3.24 f
+  FSM/U149/Y (OAI21X1)                                    0.13       3.38 r
+  FSM/U148/Y (OR2X1)                                      0.22       3.60 r
+  FSM/state_reg[2]/D (DFFSR)                              0.00       3.60 r
+  data arrival time                                                  3.60
 
   clock clk (rise edge)                                  10.00      10.00
   clock network delay (ideal)                             0.00      10.00
@@ -51,9 +54,9 @@ Wire Load Model Mode: top
   data required time                                                 9.79
   --------------------------------------------------------------------------
   data required time                                                 9.79
-  data arrival time                                                 -2.95
+  data arrival time                                                 -3.60
   --------------------------------------------------------------------------
-  slack (MET)                                                        6.84
+  slack (MET)                                                        6.19
 
 
 1
@@ -62,7 +65,7 @@ Wire Load Model Mode: top
 Report : area
 Design : usb_rx
 Version: K-2015.06-SP1
-Date   : Wed Apr 24 11:04:42 2019
+Date   : Wed Apr 24 11:54:13 2019
 ****************************************
 
 Library(s) Used:
@@ -70,21 +73,21 @@ Library(s) Used:
     osu05_stdcells (File: /package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db)
 
 Number of ports:                          113
-Number of nets:                           480
-Number of cells:                          399
-Number of combinational cells:            288
-Number of sequential cells:               103
+Number of nets:                           622
+Number of cells:                          541
+Number of combinational cells:            376
+Number of sequential cells:               157
 Number of macros/black boxes:               0
-Number of buf/inv:                         80
+Number of buf/inv:                        115
 Number of references:                       6
 
-Combinational area:              68436.000000
-Buf/Inv area:                    11592.000000
-Noncombinational area:           72864.000000
+Combinational area:              89478.000000
+Buf/Inv area:                    16704.000000
+Noncombinational area:          115632.000000
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (No wire load specified)
 
-Total cell area:                141300.000000
+Total cell area:                205110.000000
 Total area:                 undefined
 1
 Loading db file '/package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db'
@@ -98,7 +101,7 @@ Report : power
         -analysis_effort low
 Design : usb_rx
 Version: K-2015.06-SP1
-Date   : Wed Apr 24 11:04:42 2019
+Date   : Wed Apr 24 11:54:13 2019
 ****************************************
 
 
@@ -124,13 +127,13 @@ Power-specific unit information :
                                        Switch   Int      Leak     Total
 Hierarchy                              Power    Power    Power    Power    %
 --------------------------------------------------------------------------------
-usb_rx                                    1.497   12.213   43.687   13.710 100.0
-  FSM (control_fsm)                    5.54e-02    0.873    7.765    0.929   6.8
-  SR (sr_8bit)                            0.219    2.169    7.158    2.388  17.4
-    CORE (flex_stp_sr_8_0)                0.154    1.914    5.399    2.069  15.1
-  TIME (timer)                            0.356    1.627    6.066    1.983  14.5
-    BYTE (flex_counter_NUM_CNT_BITS4)     0.356    1.627    6.066    1.983  14.5
-  CHECK2 (crc_checker_16bit)              0.161    4.036   12.041    4.197  30.6
-  CHECK (crc_checker_5bit)                0.156    1.685    4.344    1.842  13.4
-  DECODE (decoder)                        0.549    1.822    6.312    2.371  17.3
+usb_rx                                    1.549   17.772   63.483   19.321 100.0
+  FSM (control_fsm)                    8.41e-02    6.419   27.480    6.503  33.7
+  SR (sr_8bit)                            0.228    2.177    7.158    2.405  12.4
+    CORE (flex_stp_sr_8_0)                0.154    1.914    5.399    2.069  10.7
+  TIME (timer)                            0.361    1.629    6.066    1.990  10.3
+    BYTE (flex_counter_NUM_CNT_BITS4)     0.361    1.629    6.066    1.990  10.3
+  CHECK2 (crc_checker_16bit)              0.164    4.036   12.122    4.200  21.7
+  CHECK (crc_checker_5bit)                0.159    1.689    4.344    1.847   9.6
+  DECODE (decoder)                        0.553    1.822    6.312    2.375  12.3
 1

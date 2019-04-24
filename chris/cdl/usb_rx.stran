@@ -9,9 +9,27 @@
 # //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
 # //
 # vsim -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB "+no_glitch_msg" -coverage -voptargs="+acc" -i -t ps source_work.tb_usb_rx 
-# Start time: 11:01:18 on Apr 24,2019
+# Start time: 11:52:11 on Apr 24,2019
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# ** Error: source/usb_rx.sv(39): Module 'crc_checker_16bit' is not defined.
-# Optimization failed
-# Error loading design
+# Loading sv_std.std
+# Loading work.tb_usb_rx(fast)
+# Loading work.usb_rx(fast)
+# Loading work.decoder(fast)
+# Loading work.crc_checker_5bit(fast)
+# Loading work.crc_checker_16bit(fast)
+# Loading work.timer(fast)
+# Loading work.flex_counter(fast)
+# Loading work.sr_8bit(fast)
+# Loading work.flex_stp_sr(fast)
+# Loading work.control_fsm(fast)
+# ** Warning: (vsim-8634) Code was not compiled with coverage options.
 do /home/ecegrid/a/mg74/USB-AHB-Module/chris/cdl/wave.do
+run 3000 ns
+# ** Info: Correct Token
+#    Time: 360 ns  Scope: tb_usb_rx.check_shit File: source/tb_usb_rx.sv Line: 102
+# ** Info: Correct Token
+#    Time: 750 ns  Scope: tb_usb_rx.check_shit File: source/tb_usb_rx.sv Line: 102
+# ** Info: Correct Data Byte
+#    Time: 1200 ns  Scope: tb_usb_rx.check_shit2 File: source/tb_usb_rx.sv Line: 113
+# End time: 11:53:20 on Apr 24,2019, Elapsed time: 0:01:09
+# Errors: 0, Warnings: 1

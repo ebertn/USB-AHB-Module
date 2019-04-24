@@ -116,6 +116,17 @@ begin
 	end
 end 
 endtask
+task check_shit3;
+input logic  expected; 
+input logic  actual; 
+begin
+	if(expected == actual)begin
+		$info("Correct CRC Value"); 
+	end else begin
+		$error("Incorrect CRC Value"); 
+	end
+end 
+endtask
 
 task sync_byte; 
 begin
@@ -235,11 +246,13 @@ initial begin
 	//#(CLK_PERIOD);
 	
 	send_shit(8'b11110000); 
-	check_shit2(8'b11010011, tb_rx_packet_data); 
-	//#(CLK_PERIOD);
 	
+	//#(CLK_PERIOD);
+	send_shit(8'b11101000); 
 	eop(); 
-	check_shit2(8'b11110000, tb_rx_packet_data);
+	//check_shit2(8'b11110000, tb_rx_packet_data);
+	check_shit2(8'b11010011, tb_rx_packet_data); 
+	
 	
 end
 endmodule

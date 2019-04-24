@@ -1,17 +1,9 @@
 QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
-Start time: 11:04:44 on Apr 24,2019
-vlog -sv -work mapped_work mapped/usb_rx.v 
--- Compiling module decoder
--- Compiling module crc_checker_5bit
--- Compiling module crc_checker_16bit
--- Compiling module flex_counter_NUM_CNT_BITS4
--- Compiling module timer
--- Compiling module flex_stp_sr_8_0
--- Compiling module sr_8bit
--- Compiling module control_fsm
--- Compiling module usb_rx
+Start time: 11:54:16 on Apr 24,2019
+vlog -sv -work mapped_work source/tb_usb_rx.sv 
+-- Compiling module tb_usb_rx
 
 Top level modules:
-	usb_rx
-End time: 11:04:45 on Apr 24,2019, Elapsed time: 0:00:01
+	tb_usb_rx
+End time: 11:54:16 on Apr 24,2019, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0

@@ -9,32 +9,32 @@ z2
 cModel Technology
 Z0 d/home/ecegrid/a/mg74/USB-AHB-Module/chris/cdl
 T_opt
-!s110 1556118288
-V0C=Fi04X;FjEJ9]2en[O:1
+!s110 1556121259
+VPOS?kH2bfjohgEZ^nA1V63
 04 9 4 work tb_usb_rx fast 0
-=1-f48e388dbf10-5cc07b10-66070-2264
+=1-f48e388dbf10-5cc086ab-b613f-2d36
 o-quiet -auto_acc_if_foreign -work mapped_work -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim +acc
 n@_opt
 OL;O;10.3b;59
 vcontrol_fsm
 Z1 DXx6 sv_std 3 std 0 22 <EOTafDcUY:cQeO^ICn]m3
-Z2 !s110 1556118284
+Z2 !s110 1556121255
 !i10b 1
-!s100 e=W791ZKK:L1<:N_zEi1:2
-IeWU0dPcSPb1;8TH3Ei;Kl1
+!s100 >iR<IkPEfeeQf0HWRI=YQ3
+IFeeE=_YHl8MAofRT8K>U?1
 Z3 V`JN@9S9cnhjKRR_L]QIcM3
 Z4 !s105 usb_rx_v_unit
 S1
 R0
-Z5 w1556118282
+Z5 w1556121253
 Z6 8mapped/usb_rx.v
 Z7 Fmapped/usb_rx.v
-L0 344
+L0 345
 Z8 OL;L;10.3b;59
 r1
 !s85 0
 31
-Z9 !s108 1556118284.881501
+Z9 !s108 1556121255.838095
 Z10 !s107 mapped/usb_rx.v|
 Z11 !s90 -sv|-work|mapped_work|mapped/usb_rx.v|
 !i113 0
@@ -43,8 +43,8 @@ vcrc_checker_16bit
 R1
 R2
 !i10b 1
-!s100 n^Ij6egKPZ=i<z]oJa1102
-IY79U=4B^6`D00f0?hO0ZA0
+!s100 6`bmL__6K?SHRbZKzQ92I3
+Ide:6Kkn3DS7>:[:EFWXLU2
 R3
 R4
 S1
@@ -112,8 +112,8 @@ vflex_counter_NUM_CNT_BITS4
 R1
 R2
 !i10b 1
-!s100 :`hFO6K?djW3QjBJkmXiV0
-I>;h4R@3MD1jWN7FNHFFK=1
+!s100 =]`jJ6D[hkaen6kdLWNLa0
+I4;fg<dagVgU]=`3[IJDgd2
 R3
 R4
 S1
@@ -121,7 +121,7 @@ R0
 R5
 R6
 R7
-L0 187
+L0 188
 R8
 r1
 !s85 0
@@ -184,8 +184,8 @@ vflex_stp_sr_8_0
 R1
 R2
 !i10b 1
-!s100 lzETng9SMO8X8zaWVB6eJ2
-I^QW_mdo=od_W?5QJ2J^;L1
+!s100 iDeo22ICJNTOGai13kNRA1
+I76kEXcF3g[Jk8LVkR2XOB1
 R3
 R4
 S1
@@ -193,7 +193,7 @@ R0
 R5
 R6
 R7
-L0 267
+L0 268
 R8
 r1
 !s85 0
@@ -207,8 +207,8 @@ vsr_8bit
 R1
 R2
 !i10b 1
-!s100 h`?A8b4JAj3`<?zG3b9`90
-I2[MWT1E6Am_K]@LZ545>;0
+!s100 QJn;_R1iSD50WX=WLFgg43
+Ifi?lFXPONoGfk<YF=DS6I2
 R3
 R4
 S1
@@ -216,7 +216,7 @@ R0
 R5
 R6
 R7
-L0 311
+L0 312
 R8
 r1
 !s85 0
@@ -228,15 +228,15 @@ R11
 R12
 vtb_usb_rx
 R1
-!s110 1556118152
+!s110 1556121256
 !i10b 1
-!s100 m8IYOjjCi0LNVm0i_ZJAO3
-IYW[T9<dHVO:BQIDg=LT_k3
+!s100 ZKPeICBYk9;2jci3]0Be22
+IjXX^M0zPV:_CzW7e4F=Dj2
 R3
 !s105 tb_usb_rx_sv_unit
 S1
 R0
-w1556117803
+w1556121215
 8source/tb_usb_rx.sv
 Fsource/tb_usb_rx.sv
 L0 3
@@ -244,7 +244,7 @@ R8
 r1
 !s85 0
 31
-!s108 1556118152.649000
+!s108 1556121256.176367
 !s107 source/tb_usb_rx.sv|
 !s90 -sv|-work|mapped_work|source/tb_usb_rx.sv|
 !i113 0
@@ -253,8 +253,8 @@ vtimer
 R1
 R2
 !i10b 1
-!s100 n@QBKa0K^dI5X<=m9]<i>0
-I_aj;;32Z?@LQ7A5HEccQg0
+!s100 O?3jUc04Gko332PnG:1WR2
+INnlk=mbQS?7S9DfA5B9Q13
 R3
 R4
 S1
@@ -262,7 +262,7 @@ R0
 R5
 R6
 R7
-L0 255
+L0 256
 R8
 r1
 !s85 0
@@ -276,8 +276,8 @@ vusb_rx
 R1
 R2
 !i10b 1
-!s100 `MXI[:^[koZ2KHLzB6FR63
-IeH=`dP:d0`_OUWfWM7h=W3
+!s100 T<]HfG4nQ`cfm4oeEGYN_2
+IXb53BYcmffHZV7Q2XHg_K0
 R3
 R4
 S1
@@ -285,7 +285,7 @@ R0
 R5
 R6
 R7
-L0 467
+L0 634
 R8
 r1
 !s85 0

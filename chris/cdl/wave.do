@@ -36,6 +36,8 @@ add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/packet_in
 add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/eop
 add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/packet_data
 add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/rx_packet
+add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/temp_holding
+add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/next_temp_holding
 add wave -noupdate -radix binary /tb_usb_rx/DUT/FSM/store_rx_data
 add wave -noupdate /tb_usb_rx/DUT/FSM/state
 add wave -noupdate /tb_usb_rx/DUT/FSM/next_state
@@ -47,10 +49,10 @@ add wave -noupdate -radix binary /tb_usb_rx/DUT/CHECK/q
 add wave -noupdate -radix binary /tb_usb_rx/DUT/CHECK/xor1
 add wave -noupdate -radix binary /tb_usb_rx/DUT/CHECK/xor2
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {185000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1118354 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 204
-configure wave -valuecolwidth 100
+configure wave -valuecolwidth 190
 configure wave -justifyvalue left
 configure wave -signalnamewidth 1
 configure wave -snapdistance 10
@@ -63,4 +65,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ps} {1050 ns}
+WaveRestoreZoom {0 ps} {2625 ns}
