@@ -11,7 +11,7 @@
 module tb_usb_tx();
 
    //local parameters
-   localparam CLK_PERIOD = 1;         //constant values taken from syncronizer test bench
+   localparam CLK_PERIOD = 10;         //constant values taken from syncronizer test bench
    localparam FF_SETUP_TIME = 0.190;  //not sure if these will be different for this design
    localparam FF_HOLD_TIME = 0.100;
    localparam CHECK_DELAY = (CLK_PERIOD - FF_SETUP_TIME);
@@ -40,6 +40,7 @@ module tb_usb_tx();
    int tb_test_num;
    string tb_test_case;
    reg [7:0][63:0] data_to_send;
+   reg [7:0][63:0] expected_data_to_send;
    reg [7:0] 	   sync_byte = 8'b00000001;//8'b00000001;
    reg [7:0] 	   expected_tb_d_plus_out;
    reg [7:0] 	   expected_tb_d_minus_out;
@@ -345,6 +346,7 @@ module tb_usb_tx();
 	@ (posedge tb_clk);
 	@ (posedge tb_clk);
 	data_to_send[0] = NACK_CODE;
+	expected_data_to_send[0] = 8'b00110110;
 	@ (posedge tb_clk);
 
 	for (count1=0; count1<tb_tx_packet_data_size; count1++)
@@ -357,7 +359,7 @@ module tb_usb_tx();
 	       end
 	  end
 	
-	send_signal(SEND_NACK, data_to_send, 7'b0000001, 8'b00110110);//8'b01101100);
+	send_signal(SEND_NACK, data_to_send, 7'b0000001, expected_data_to_send);//8'b01101100);
 
 	@ (posedge tb_clk);
 	
@@ -379,6 +381,7 @@ module tb_usb_tx();
 	@ (posedge tb_clk);
 	@ (posedge tb_clk);
 	data_to_send[0] = ACK_CODE;
+	expected_data_to_send[0] = 8'b00111001;
 	@ (posedge tb_clk);
 
 	for (count1=0; count1<tb_tx_packet_data_size; count1++)
@@ -391,7 +394,7 @@ module tb_usb_tx();
 	       end
 	  end
 	
-	send_signal(SEND_ACK, data_to_send, 7'b0000001, 8'b00111001);//8'b10011100);
+	send_signal(SEND_ACK, data_to_send, 7'b0000001, expected_data_to_send);//8'b10011100);
 
 	@ (posedge tb_clk);
 	
@@ -405,7 +408,7 @@ module tb_usb_tx();
 
 	tb_tx_packet = 'b0;
 	tb_tx_packet_data = 'b0;
-	tb_tx_packet_data_size = 7'b0000002;
+	tb_tx_packet_data_size = 7'd2;
 	data_to_send = 0;
 	crc = 0;
 	
@@ -415,6 +418,8 @@ module tb_usb_tx();
 	@ (posedge tb_clk);
 	data_to_send[0] = DATA_CODE;
 	data_to_send[1] = 8'b01100111;
+	expected_data_to_send[0] = 8'b10000010;
+	expected_data_to_send[1] = 8'b11101111;
 	@ (posedge tb_clk);
 
 	for (count1=0; count1<tb_tx_packet_data_size; count1++)
@@ -427,7 +432,7 @@ module tb_usb_tx();
 	       end
 	  end
 	
-	send_signal(SEND_DATA, data_to_send, 7'b0000001);
+	send_signal(SEND_DATA, data_to_send, 7'b0000001, expected_data_to_send);
 
 	@ (posedge tb_clk);
 	/*

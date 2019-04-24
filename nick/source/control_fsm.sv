@@ -30,7 +30,7 @@ module control_fsm
 	output logic eop
 );
 
-typedef enum {IDLE, START_TRANSFER, SYNC_BYTE, LOAD_PID, DATA_PID, LOAD_DATA, SEND_BYTE, CRC0, CRC1, ACK_PID, NACK_PID, DELAY, EOP} State;
+typedef enum logic [3:0] {IDLE, START_TRANSFER, SYNC_BYTE, LOAD_PID, DATA_PID, LOAD_DATA, SEND_BYTE, CRC0, CRC1, ACK_PID, NACK_PID, DELAY, EOP} State;
 State state, next_state;
 
 localparam tx_packet_IDLE 	    = 2'b00;
@@ -155,9 +155,11 @@ always_comb begin
 		end
 
 		DATA_PID: begin
-			if(rollover_flag64) timer_clear = 1;
+			if(rollover_flag64) begin 
+				timer_clear = 1;
+				get_tx_packet_data = 1;
+			end
 			crc_clear = 1;
-			get_tx_packet_data = 1;
 		end
 
 		/*GET_DATA: begin
