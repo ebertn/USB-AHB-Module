@@ -13,7 +13,7 @@
 # //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
 # //
 # vsim -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB "+no_glitch_msg" -coverage -voptargs="+acc" -i -t ps mapped_work/.tb_address_decoder 
-# Start time: 18:41:19 on Apr 23,2019
+# Start time: 18:45:43 on Apr 23,2019
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.tb_address_decoder(fast)
@@ -133,5 +133,5 @@ run 1000 ns
 #    Time: 315188 ps  Iteration: 0  Instance: /tb_address_decoder/DUT/\prevAddr_reg[0] /CELL_CORE
 # ** Warning: DFFSR instance metastable output value decayed to a '1' value
 #    Time: 315796 ps  Iteration: 0  Instance: /tb_address_decoder/DUT/\prevAddr_reg[0] 
-# End time: 18:45:31 on Apr 23,2019, Elapsed time: 0:04:12
+# End time: 20:11:44 on Apr 23,2019, Elapsed time: 1:26:01
 # Errors: 0, Warnings: 38

@@ -133,3 +133,5 @@ run 1000 ns
 #    Time: 315188 ps  Iteration: 0  Instance: /tb_address_decoder/DUT/\prevAddr_reg[0] /CELL_CORE
 # ** Warning: DFFSR instance metastable output value decayed to a '1' value
 #    Time: 315796 ps  Iteration: 0  Instance: /tb_address_decoder/DUT/\prevAddr_reg[0] 
+# End time: 20:11:44 on Apr 23,2019, Elapsed time: 1:26:01
+# Errors: 0, Warnings: 38
