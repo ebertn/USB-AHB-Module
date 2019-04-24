@@ -40,7 +40,9 @@ module tb_usb_tx();
    string tb_test_case;
    reg [7:0][63:0] data_to_send;
    reg [7:0] 	   sync_byte = 8'b00000001;
-      
+   reg [7:0] 	   expected_d_plus_out;
+   reg [7:0] 	   expected_d_minus_out;
+         
    /////////////////////
    // reset procedure //
    /////////////////////
@@ -116,10 +118,12 @@ module tb_usb_tx();
 	 tb_tx_packet_data_size = data_size_input;
 
 	 //sync byte transmission
+	 encode_output(sync_byte)
 	 for (x=0; x<7; x++)
 	   begin
 	      @ (posedge tb_clk);
-	      check_output(sync_byte[x], d_plus_out, "d_plus_out", "for sync byte transmission");
+	      check_output(expected_d_plus_out[x], tb_d_plus_out, "d_plus_out", "for sync byte transmission");
+	      check_output(expected_d_minus_out[x], tb_d_minus_out, "d_minus_out", "for sync byte transmission");
 	   end
 
 	 //regular transmission (includes ACK and NACK)
@@ -129,14 +133,45 @@ module tb_usb_tx();
 	      for(i=0; i<8; i++)
 		begin
 		   @ (posedge tb_clk)
-		   check_output(byte_input[i], tb_d_plus_out, "d_plus_out", tb_test_case);
+		   check_output(expected_tb_d_plus_out, tb_d_plus_out, "d_plus_out", tb_test_case);
+		   check_output(expected_tb_d_minus_out, tb_d_minus_out, "d_minus_out", tb_test_case);
 		end
 	   end
-	 
+	 	
+	 //CRC stuff
+ 
 	 check_output(1'b1, tb_tx_status, "tx_status", "for EOP signal");
       end
    endtask // send_signal
-     
+
+   ///////////////////
+   // encode output //
+   ///////////////////
+   task encode_output;
+      input logic [7:0] serial_in;
+
+      int 		x;
+            
+      begin
+	 expected_d_plus_out[0] = 1'b1;
+	 expected_d_minus_out[0] = 1'b0;
+	 for (x=1, x<8; x++)
+	   begin
+	      @ (posedge tb_clk);
+	      if (serial_in[x] == 1'b0)
+		begin
+		   encoded_out[x] = !encoded_out[x-1];
+		end
+	      else
+		begin
+		   encoded_out[x] = encoded_out[x-1];
+		end
+	   end // for (x=1, x<8; x++)
+	 expected_d_plus_out = encoded_out;
+	 expected_d_minus_out = !encoded_out;
+      end
+   endtask // encode_output
+        
    //////////////////////
    // Clock Generation //
    //////////////////////
