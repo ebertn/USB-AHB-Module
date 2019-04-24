@@ -35,7 +35,7 @@ module protocol_controller
    input reg 	    buffer_reserved, //from AHB Slave
    input reg [6:0]  buffer_occupancy, //from DB
    input reg 	    tx_status, //from TX
-   input reg 	    lock_error;
+   input reg 	    lock_error,
    output reg 	    rx_data_ready, //to AHB Slave
    output reg 	    rx_transfer_active, //to AHB Slave
    output reg 	    rx_error, //to AHB Slave
@@ -43,8 +43,8 @@ module protocol_controller
    output reg 	    tx_error, //to AHB Slave
    output reg 	    d_mode, //to external port
    output reg [1:0] tx_packet, //to TX
-   output reg 	    clear //to DB
-   output reg 	    lock_db;
+   output reg 	    clear, //to DB
+   output reg 	    lock_db
    );
 
    typedef enum     {IDLE, RX_ACTIVE, RX_ERROR, PACKET_READY, RX_ACK, RX_NACK, RESERVED, START_TX, TX_ACTIVE, TX_ACK, TX_NACK, TX_ERROR, BUFFER_ERROR, LOCK} statetype;
@@ -59,7 +59,7 @@ module protocol_controller
 	  end
 	case (state)
 	  IDLE : begin
-	     if (rx_packet == RX_BUSY)
+	     if ((rx_packet == RX_BUSY) || (rx_packet == RX_READY))
 	       begin
 		  next_state = RX_ACTIVE;
 	       end
@@ -85,7 +85,7 @@ module protocol_controller
 	       begin
 		  next_state = RX_ACTIVE;
 	       end
-	     else if (rx_packet == RX_ERR)
+	     else if ((rx_packet == RX_ERR) || (buffer_reserved == 1'b1))
 	       begin
 		  next_state = RX_ERROR;
 	       end
@@ -222,7 +222,8 @@ module protocol_controller
 	d_mode = 1'b0;
 	tx_packet = TX_IDLE;
 	clear = 1'b0;
-		
+	lock_db = 1'b0;
+			
 	case (state)
 	  IDLE : begin
 	  end // case: IDLE
@@ -248,10 +249,11 @@ module protocol_controller
 	  end
 	  
 	  RESERVED : begin
+	     lock_db = 1'b1;
 	  end
 
 	  LOCK : begin
-	     lock_db = 1'b1;
+	     tx_packet = SEND_NACK;
 	  end
 	  	  
 	  START_TX : begin
@@ -260,6 +262,7 @@ module protocol_controller
 	  
 	  TX_ACTIVE : begin
 	     tx_packet = SEND_DATA;
+	     tx_transfer_active = 1'b1;
 	  end
 	  
 	  TX_ACK : begin

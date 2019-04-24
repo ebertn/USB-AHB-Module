@@ -133,8 +133,8 @@ module top_level_file
 		 .get_tx_packet_data(get_tx_packet_data),
 		 .tx_packet_data(tx_packet_data),
 		 .tx_packet_data_size(tx_packet_data_size),
-		 .d_minus_out(d_minus_out),
-		 .d_plus_out(d_plus_out),
+		 .dminus_out(d_minus_out),
+		 .dplus_out(d_plus_out),
 		 .tx_packet(tx_packet),
 		 .tx_status(tx_status)
 		 );

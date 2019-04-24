@@ -22,11 +22,11 @@ module data_buffer
    input reg 	     get_tx_packet_data, //from TX
    input reg [7:0]   rx_packet_data, //from RX
    input reg 	     store_rx_packet_data, //from RX
-   input reg 	     lock_db;
+   input reg 	     lock_db,
    output reg [6:0]  buffer_occupancy, //to PC and AHB Slave
    output reg [31:0] rx_data, //to AHB Slave
-   output reg [7:0]  tx_packet_data //to TX
-   output reg 	     lock_error;
+   output reg [7:0]  tx_packet_data, //to TX
+   output reg 	     lock_error
    );
 
    typedef enum      {IDLE, STORE, RECEIVE, SEND_TX, SEND_RX, CLEAR, LOCK} statetype;
@@ -92,10 +92,14 @@ module data_buffer
 	next_count1 = 0;
 	next_count2 = 0;
 	case(state)
+	  IDLE : begin
+	     next_count1 = count1;
+	     next_count2 = count2;
+	  end
 	  STORE : begin            //increments highest occupied register to store 32 bits at a time
 	     next_count1 = count1 + 4;
 	  end
-	  RECEIVE : begin          //increments highest occupied register to store 1 byte at a time
+	  SEND_RX : begin          //increments highest occupied register to store 1 byte at a time
 	     next_count1 = count1 + 1;
 	  end
 	  SEND_TX : begin          //increments lowest occupied register to send 1 byte at a time
@@ -106,7 +110,7 @@ module data_buffer
 		  next_count2 = 0; //data bytes are empty
 	       end
 	  end
-	  SEND_RX : begin          //increments lowest occupied register
+	  RECEIVE : begin          //increments lowest occupied register
 	     if (data_size == 2'b00)
 	       begin
 		  next_count2 = count2 + 1;
