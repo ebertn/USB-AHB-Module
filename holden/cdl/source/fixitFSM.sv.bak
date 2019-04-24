@@ -5,6 +5,7 @@ module fixitFSM (
 	input wire rxDataReady,
 	input wire [6:0] bufferOccupancy,
 	input wire [6:0] txPacketDataSize,
+
 	output wire bufferReserved
 );
 
@@ -12,7 +13,7 @@ localparam IDLE = 2'b00;
 localparam WRITE = 2'b01;
 localparam READ = 2'b10;
 
-reg [1:0] nextState
+reg [1:0] nextState;
 reg [1:0] state;
 
 // next state logic

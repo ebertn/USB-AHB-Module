@@ -43,6 +43,7 @@ wire [15:0] errorData;
 wire [7:0] boData;
 wire [7:0] ehtsData;
 wire [31:0] rdata;
+wire txPacketSizeChanged;
 
 state_controller sc (
 	.clk(clk),
@@ -58,7 +59,7 @@ state_controller sc (
 	.hresp(hresp),
 	.hready(hready),
 	.dataSize(dataSize),
-	.bufferReserved(bufferReserved)
+	.txPacketSizeChanged(txPacketSizeChanged)
 );
 
 value_registers vr (
@@ -81,7 +82,7 @@ rdata_register rDataReg (
 	.clk(clk),
 	.nRst(nRst),
 	.rxData(rxData),
-	.rdata(rdata),
+	.rdata(rdata)
 );
 
 address_decoder decoder (
@@ -102,5 +103,15 @@ address_decoder decoder (
 );
 
 assign txPacketDataSize = ehtsData[6:0];
+
+fixitFSM fsm (
+	.clk(clk),
+	.nRst(nRst),
+	.txPacketSizeChanged(txPacketSizeChanged),
+	.rxDataReady(rxDataReady),
+	.bufferOccupancy(bufferOccupancy),
+	.txPacketDataSize(txPacketDataSize),
+	.bufferReserved(bufferReserved)
+);
 
 endmodule

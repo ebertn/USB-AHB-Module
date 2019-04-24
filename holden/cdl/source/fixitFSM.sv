@@ -13,7 +13,7 @@ localparam IDLE = 2'b00;
 localparam WRITE = 2'b01;
 localparam READ = 2'b10;
 
-reg [1:0] nextState
+reg [1:0] nextState;
 reg [1:0] state;
 
 // next state logic
@@ -44,6 +44,6 @@ always_ff @(posedge clk, negedge nRst) begin
 end
 
 // output logic
-assign bufferReserved = ((state == WRITE) || (state == READ)) ? 1'b1 : 1'b0
+assign bufferReserved = ((state == WRITE) || (state == READ)) ? 1'b1 : 1'b0;
 
 endmodule

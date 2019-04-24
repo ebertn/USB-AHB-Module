@@ -13,8 +13,8 @@ module state_controller (
 	output reg getRxData,
 	output reg hresp,
 	output reg hready,
-	output wire [1:0] dataSize
-	output wire bufferReserved
+	output wire [1:0] dataSize,
+	output wire txPacketSizeChanged
 );
 
 // localparams
@@ -30,13 +30,13 @@ reg [1:0] nextState;
 assign dataSize = hsize;
 assign hresp = ((state == ERROR) | (nextState == ERROR)) ? 1'b1 : 1'b0;
 assign hready = (nextState == ERROR) ? 1'b0 : 1'b1;
-assign bufferReserved = getRxData | storeTxData;
 
 // Next State Logic
 always_comb begin
 	storeTxData = 1'b0;
 	getRxData = 1'b0;
 	nextState = IDLE;
+	nextTxPacketSizeChanged = 1'b0;
 
 	if (hsel && htrans != IDLE) begin
 		if (hsize == 2'b11) begin
@@ -48,6 +48,7 @@ always_comb begin
 				nextState = WRITE;
 			end else if (haddr == 7'h48 && hsize == 2'b00) begin
 				nextState = WRITE;
+				txPacketSizeChanged = 1'b1;
 			end else begin
 				nextState = ERROR;
 			end
@@ -71,7 +72,6 @@ always_comb begin
 		end
 	end
 end
-
 
 // Register for State
 always_ff @(posedge clk, negedge nRst) begin
