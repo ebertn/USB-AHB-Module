@@ -15,7 +15,8 @@ module control_fsm
 	input logic [1:0] tx_packet,
 	input logic rollover_flag8,
 	input logic rollover_flag64,
-	input logic rollover_flag512
+	input logic rollover_flag512,
+	input logic stuffing,
 	input logic [15:0] calculated_crc,
 	output logic timer_count_enable,
 	output logic timer_clear,
