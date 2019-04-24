@@ -14,20 +14,22 @@ module data_buffer
   (
    input reg 	     clk,
    input reg 	     n_rst,
-   input reg 	     clear,                //from PC
-   input reg 	     get_rx_data,          //from AHB Slave
-   input reg 	     store_tx_data,        //from AHB Slave
-   input reg [31:0]  tx_data,              //from AHB Slave
-   input reg [1:0]   data_size,            //from AHB Slave
-   input reg 	     get_tx_packet_data,   //from TX
-   input reg [7:0]   rx_packet_data,       //from RX
+   input reg 	     clear, //from PC
+   input reg 	     get_rx_data, //from AHB Slave
+   input reg 	     store_tx_data, //from AHB Slave
+   input reg [31:0]  tx_data, //from AHB Slave
+   input reg [1:0]   data_size, //from AHB Slave
+   input reg 	     get_tx_packet_data, //from TX
+   input reg [7:0]   rx_packet_data, //from RX
    input reg 	     store_rx_packet_data, //from RX
-   output reg [6:0]  buffer_occupancy,     //to PC and AHB Slave
-   output reg [31:0] rx_data,              //to AHB Slave
-   output reg [7:0]  tx_packet_data        //to TX
+   input reg 	     lock_db;
+   output reg [6:0]  buffer_occupancy, //to PC and AHB Slave
+   output reg [31:0] rx_data, //to AHB Slave
+   output reg [7:0]  tx_packet_data //to TX
+   output reg 	     lock_error;
    );
 
-   typedef enum      {IDLE, STORE, RECEIVE, SEND_TX, SEND_RX, CLEAR} statetype;
+   typedef enum      {IDLE, STORE, RECEIVE, SEND_TX, SEND_RX, CLEAR, LOCK} statetype;
    statetype state, next_state;
    
 
@@ -46,6 +48,10 @@ module data_buffer
 	if (clear == 1'b1)
 	  begin
 	     next_state = CLEAR;
+	  end
+	else if (lock_db == 1'b1)
+	  begin
+	     next_state = LOCK;
 	  end
 	else if (store_tx_data == 1'b1)
 	  begin
@@ -150,6 +156,8 @@ module data_buffer
 	rx_data = 'b0;
 	tx_packet_data = 'b0;
 	new_data = 'b0;
+	lock_error = 1'b0;
+	
 	case (state)
 	  STORE : begin
 	     new_data[0] = tx_data[7:0];
@@ -189,6 +197,13 @@ module data_buffer
 	  end
 	  CLEAR : begin
 	  end
+	  LOCK : begin
+	     if (get_rx_data == 1'b1)
+	       begin
+		  lock_error = 1'b1;
+	       end
+	  end
+	  
 	endcase // case (state)
      end // always_comb
 

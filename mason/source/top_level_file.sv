@@ -50,7 +50,9 @@ module top_level_file
    wire [1:0] 	   tx_packet;
    wire [2:0] 	   rx_packet;
    wire 	   clear;
-      
+   wire 	   lock_db;
+   wire 	   lock_error;
+         
    ahb_lite_slave ahb_lite_slave(
 				 .clk(clk)
 				 .nRst(n_rst)
@@ -76,7 +78,7 @@ module top_level_file
 				 .storeTxData(store_tx_data),
 				 .txData(tx_data),
 				 .dataSize(data_size),
-				 .txPacketDataSize(tx_packet_data_size),
+				 .txPacketDataSize(tx_packet_data_size)
 				 );
 
    protocol_controller protocol_controller(
@@ -94,6 +96,8 @@ module top_level_file
 					   .tx_packet(tx_packet),
 					   .d_mode(d_mode),
 					   .rx_packet(rx_packet),
+					   .lock_db(lock_db),
+					   .lock_error(lock_error)
 					   );
 
    data_buffer data_buffer(
@@ -109,6 +113,8 @@ module top_level_file
 			   .rx_packet_data(rx_packet_data),
 			   .store_rx_packet_data(store_rx_packet_data),
 			   .clear(clear),
+			   .lock_db(lock_db),
+			   .lock_error(lock_error)
 			   );
 
    usb_rx usb_rx(
@@ -118,7 +124,7 @@ module top_level_file
 		 .store_rx_packet(store_rx_packet_data),
 		 .rx_packet_data(rx_packet_data),
 		 .dminus_in(d_minus_in),
-		 .dplus_in(d_plus_in),
+		 .dplus_in(d_plus_in)
 		 );
 
    usb_tx usb_tx(
@@ -130,7 +136,7 @@ module top_level_file
 		 .d_minus_out(d_minus_out),
 		 .d_plus_out(d_plus_out),
 		 .tx_packet(tx_packet),
-		 .tx_status(tx_status),
+		 .tx_status(tx_status)
 		 );
 
 endmodule // top_level_file

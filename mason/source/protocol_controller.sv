@@ -35,6 +35,7 @@ module protocol_controller
    input reg 	    buffer_reserved, //from AHB Slave
    input reg [6:0]  buffer_occupancy, //from DB
    input reg 	    tx_status, //from TX
+   input reg 	    lock_error;
    output reg 	    rx_data_ready, //to AHB Slave
    output reg 	    rx_transfer_active, //to AHB Slave
    output reg 	    rx_error, //to AHB Slave
@@ -42,10 +43,11 @@ module protocol_controller
    output reg 	    tx_error, //to AHB Slave
    output reg 	    d_mode, //to external port
    output reg [1:0] tx_packet, //to TX
-   output reg 	    clear               //to DB
+   output reg 	    clear //to DB
+   output reg 	    lock_db;
    );
 
-   typedef enum     {IDLE, RX_ACTIVE, RX_ERROR, PACKET_READY, RX_ACK, RX_NACK, RESERVED, START_TX, TX_ACTIVE, TX_ACK, TX_NACK, TX_ERROR, BUFFER_ERROR} statetype;
+   typedef enum     {IDLE, RX_ACTIVE, RX_ERROR, PACKET_READY, RX_ACK, RX_NACK, RESERVED, START_TX, TX_ACTIVE, TX_ACK, TX_NACK, TX_ERROR, BUFFER_ERROR, LOCK} statetype;
    statetype state, next_state;
    
    always_comb   //next state logic
@@ -126,9 +128,23 @@ module protocol_controller
 	       end
 	  end
 	  RESERVED : begin
-	     if (buffer_reserved == 1'b0)
+	     if ((rx_packet == RX_BUSY) || (rx_packet == RX_READY))
+	       begin
+		  next_state = LOCK;
+	       end
+	     else if (buffer_reserved == 1'b0)
 	       begin
 		  next_state = IDLE;
+	       end
+	     else
+	       begin
+		  next_state = RESERVED;
+	       end
+	  end // case: RESERVED
+	  LOCK : begin
+	     if ((rx_packet == RX_BUSY) || (rx_packet == RX_READY))
+	       begin
+		  next_state = LOCK;
 	       end
 	     else
 	       begin
@@ -233,7 +249,11 @@ module protocol_controller
 	  
 	  RESERVED : begin
 	  end
-	  
+
+	  LOCK : begin
+	     lock_db = 1'b1;
+	  end
+	  	  
 	  START_TX : begin
 	     d_mode = 1'b1;
 	  end
