@@ -1,0 +1,34 @@
+# //  Questa Sim-64
+# //  Version 10.3b linux_x86_64 May 29 2014
+# //
+# //  Copyright 1991-2014 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# vsim -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB "+no_glitch_msg" -coverage -voptargs="+acc" -i -t ps source_work/.tb_address_decoder 
+# Start time: 18:13:40 on Apr 23,2019
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.tb_address_decoder(fast)
+# Loading work.address_decoder(fast)
+# ** Warning: (vsim-8634) Code was not compiled with coverage options.
+do /home/ecegrid/a/mg77/ece337/cdl/address_decoder.do
+# ** Error: (vish-4014) No objects found matching '/tb_address_decoder/tb_bufferReserved'.
+# Executing ONERROR command at macro /home/ecegrid/a/mg77/ece337/cdl/address_decoder.do line 23
+# ** Error: (vish-4014) No objects found matching '/tb_address_decoder/tb_expected_bufferReserved'.
+# Executing ONERROR command at macro /home/ecegrid/a/mg77/ece337/cdl/address_decoder.do line 24
+run 1400 ns
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/ecegrid/a/mg77/ece337/cdl/address_decoder.do
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.tb_address_decoder(fast)
+# Loading work.address_decoder(fast)
+# ** Warning: (vsim-8634) Code was not compiled with coverage options.
+do /home/ecegrid/a/mg77/ece337/cdl/address_decoder.do
+run 1400 ns
+# End time: 18:16:40 on Apr 23,2019, Elapsed time: 0:03:00
+# Errors: 6, Warnings: 2

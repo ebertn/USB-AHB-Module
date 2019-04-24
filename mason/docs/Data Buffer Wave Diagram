@@ -1,0 +1,16 @@
+{signal: [
+  {name: 'next_state', 				wave: '3.3..3..3..3..3..3........', data: ['IDLE', 'STORE', 'RECEIVE', 'SEND TX', 'SEND RX', 'CLEAR', 'IDLE']},
+  {name: 'state', 					wave: '2..2..2..2..2..2..2.......', data: ['IDLE', 'STORE', 'RECEIVE', 'SEND TX', 'SEND RX', 'CLEAR', 'IDLE']},
+  {name: 'store_tx_data_i',			wave: '0.1..0....................'},
+  {name: 'get_rx_data_i', 			wave: '0....1..0.................'},
+  {name: 'get_tx_packet_data_i',	wave: '0.......1..0..............'},
+  {name: 'store_rx_packet_data_i',	wave: '0..........1..0...........'},
+  {name: 'clear_i',	 				wave: '0.............1..0........'}, 
+  {name: 'tx_data_i [31:0]', 		wave: '0..2..0...................', data: ['Data In']},
+  {name: 'data_size_i [1:0]', 		wave: '0..2..0...................', data: ['Data In']},
+  {name: 'rx_packet_data_i [7:0]', 	wave: '0...........2..0..........', data: ['Data In']},
+  {name: 'buffer_occupancy_o [6:0]',wave: '0..2..............0.......', data: ['Buffer Occupancy: Exact Number Determined For Each Case']},
+  {name: 'rx_data_o [31:0]', 		wave: '0.....2..0................', data: ['Data Out']},
+  {name: 'tx_packet_data_o [7:0]', 	wave: '0........2..0.............', data: ['Data Out']},
+]}
+

@@ -1,0 +1,20 @@
+{signal: [
+  {name: 'next_state',              wave: '3.3..3..3..3..3..3..3..3..3..3..3..3...', data: ['Idle', 'Start TX', 'TX Active', 'TX Error', 'TX Active', 'Idle', 'Start RX', 'RX Active', 'RX Error', 'RX Active', 'Packet Ready', 'NACK', 'Idle']},
+  {name: 'state',                   wave: '2..2..2..2..2..2..2..2..2..2..2..2..2..', data: ['Idle', 'Start TX', 'TX Active', 'TX Error', 'TX Active', 'Idle', 'Start RX', 'RX Active', 'RX Error', 'RX Active', 'Packet Ready', 'NACK', 'Idle']},
+  {name: 'buffer_reserved_i',       wave: '0.....1........0.......................'},
+  {name: 'tx_packet_size_i [6:0]',  wave: 'x......................................'},
+  {name: 'buffer_occupancy_i [6:0]',wave: 'x......................................'},
+  {name: 'rx_packet_i [2:0]',       wave: '2.................2..2..2..2..2..2.....', data: ['Idle', 'RX Ready', 'RX Busy', 'RX Error', 'RX Busy', 'RX Received', 'Idle']},
+  {name: 'rx_data_ready_o',         wave: '0.............................1..0.....'},
+  {name: 'rx_transfer_active_o',    wave: '0....................1..0..1..0........'},
+  {name: 'rx_error_o',              wave: '0.......................1..0...........'},
+  {name: 'tx_transfer_active_o',    wave: '0.....1..0..1..0.......................'},
+  {name: 'tx_error_o',              wave: '0........1..0..........................'},
+  {name: 'clear_o',                 wave: '0........1..0..........................'},
+  {name: 'tx_packet_o [1:0]',       wave: '2..2...........2.................2..2..', data: ['Idle', 'Start Transfer', 'Idle', 'NACK', 'Idle']},
+  {name: 'tx_status',               wave: '2.....2..2..2..2.......................', data: ['Idle', 'TX Busy', 'TX Error', 'TX Busy', 'Idle']},
+  {name: 'd_mode_o',                wave: '0..1..0.................1..0...........'},
+]}
+
+
+

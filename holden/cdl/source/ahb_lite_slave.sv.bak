@@ -1,0 +1,106 @@
+module ahb_lite_slave (
+	// System Signals	
+	input wire clk,
+	input wire nRst,
+	
+	// AHB-Lite Input Signals
+	input wire hsel,
+	input wire [6:0] haddr,
+	input wire [1:0] htrans,
+	input wire [1:0] hsize,
+	input wire hwrite,
+	input wire [31:0] hwdata,
+	input wire [2:0] hburst,
+
+	// Internal USB Input Signals
+	input wire rxDataReady,
+	input wire rxTransferActive,
+	input wire rxError,
+	input wire txTransferActive,
+	input wire txError,
+	input wire [6:0] bufferOccupancy,
+	input wire [31:0] rxData,
+
+	// AHB-Lite Output Signals
+	output wire [31:0] hrdata,
+	output wire hresp,
+	output wire hready,
+
+	// Internal USB Output Signals
+	output wire bufferReserved,
+	output wire getRxData,
+	output wire storeTxData,
+	output wire [31:0] txData,
+	output wire [1:0] dataSize,
+	output reg  [6:0] txPacketDataSize
+);
+
+// Internal Signals
+wire [1:0] state;
+wire [7:0] nextEHTSData;
+wire [15:0] statusData;
+wire [15:0] errorData;
+wire [7:0] boData;
+wire [7:0] ehtsData;
+wire [31:0] rdata;
+
+state_controller sc (
+	.clk(clk),
+	.nRst(nRst),
+	.haddr(haddr),
+	.htrans(htrans),
+	.hsize(hsize),
+	.hwrite(hwrite),
+	.hsel(hsel),
+	.state(state),
+	.storeTxData(storeTxData),
+	.getRxData(getRxData),
+	.hresp(hresp),
+	.hready(hready),
+	.dataSize(dataSize),
+	.bufferReserved(bufferReserved)
+);
+
+value_registers vr (
+	.clk(clk),
+	.nRst(nRst),
+	.rxDataReady(rxDataReady),
+	.rxTransferActive(rxTransferActive),
+	.txTransferActive(txTransferActive),
+	.txError(txError),
+	.rxError(rxError),
+	.bufferOccupancy(bufferOccupancy),
+	.nextEHTSData(nextEHTSData),
+	.statusData(statusData),
+	.errorData(errorData),
+	.boData(boData),
+	.ehtsData(ehtsData)
+);
+
+rdata_register rDataReg (
+	.clk(clk),
+	.nRst(nRst),
+	.rxData(rxData),
+	.rdata(rdata),
+);
+
+address_decoder decoder (
+	.clk(clk),
+	.nRst(nRst),
+	.haddr(haddr),
+	.hsize(hsize),
+	.hwdata(hwdata),
+	.state(state),
+	.rdata(rdata),
+	.statusData(statusData),
+	.errorData(errorData),
+	.boData(boData),
+	.ehtsData(ehtsData),
+	.nextEHTSData(nextEHTSData),
+	.hrdata(hrdata),
+	.txData(txData)
+);
+
+assign txPacketDataSize = ehtsData;
+
+endmodule
