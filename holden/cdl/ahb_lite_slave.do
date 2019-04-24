@@ -53,8 +53,12 @@ add wave -noupdate -group {Expected Internal Signals} -color Maroon /tb_ahb_lite
 add wave -noupdate -group {Expected Internal Signals} -color Maroon /tb_ahb_lite_slave/tb_expected_txPacketDataSize
 add wave -noupdate -expand -group States /tb_ahb_lite_slave/DUT/sc/state
 add wave -noupdate -expand -group States /tb_ahb_lite_slave/DUT/sc/nextState
+add wave -noupdate -expand -group {Register Data} -color Pink /tb_ahb_lite_slave/DUT/rdata
+add wave -noupdate -expand -group {Register Data} -color Pink /tb_ahb_lite_slave/DUT/errorData
+add wave -noupdate -expand -group {Register Data} -color Pink /tb_ahb_lite_slave/DUT/ehtsData
+add wave -noupdate -expand -group {Register Data} -color Pink /tb_ahb_lite_slave/DUT/boData
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {634434 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1080091 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 278
 configure wave -valuecolwidth 100
@@ -70,4 +74,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {527508 ps} {808164 ps}
+WaveRestoreZoom {0 ps} {1575 ns}

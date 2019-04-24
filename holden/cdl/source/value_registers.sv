@@ -11,15 +11,15 @@ module value_registers (
 	input reg [6:0] bufferOccupancy,
 	input reg [7:0] nextEHTSData,
 	
-	output reg [15:0] statusData,
-	output reg [15:0] errorData,
-	output reg [7:0]  boData,
-	output reg [7:0]  ehtsData
+	output logic [15:0] statusData,
+	output logic [15:0] errorData,
+	output logic [7:0]  boData,
+	output logic [7:0]  ehtsData
 );
 
 // Internal Signals
-reg [15:0] nextStatusData;
-reg [15:0] nextErrorData;
+logic [15:0] nextStatusData;
+logic [15:0] nextErrorData;
 
 
 // Next State Logic for Status Register
