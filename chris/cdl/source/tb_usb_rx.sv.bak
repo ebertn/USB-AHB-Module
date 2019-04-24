@@ -105,6 +105,17 @@ begin
 	end
 end 
 endtask
+task check_shit2;
+input logic [7:0] expected; 
+input logic [7:0] actual; 
+begin
+	if(expected == actual)begin
+		$info("Correct Data Byte"); 
+	end else begin
+		$error("Incorrect Data Byte"); 
+	end
+end 
+endtask
 
 task sync_byte; 
 begin
@@ -146,6 +157,12 @@ begin
 	tb_dplus_in = 1'b0; 
 	tb_dminus_in = 1'b0; 
 	
+	tb_dplus_in = 1'b1; 
+	tb_dminus_in = 1'b0; 
+	#(CLK_PERIOD); 
+	tb_dplus_in = 1'b0; 
+	tb_dminus_in = 1'b1; 
+	
 end 
 endtask	
 
@@ -174,8 +191,13 @@ initial begin
 	send_shit(8'b10110011); 
 	send_shit(8'b11101110); 
 	
-	check_shit(8'b00000011, {5'b00000, tb_rx_packet});  
+	check_shit(8'b00000010, {5'b00000, tb_rx_packet});  
 	eop(); 
+	//reset_dut();
+	tb_n_rst = 1'b0;
+	#(CLK_PERIOD); 
+	tb_n_rst = 1'b1; 
+	
 	
 	
 /*****************************************************************************
@@ -192,8 +214,31 @@ initial begin
 	send_shit(8'b11101111); 
 	reset_dut();
 	check_shit(8'b00000000, {5'b00000, tb_rx_packet});  
+	eop(); 
+	tb_n_rst = 1'b0;
+	#(CLK_PERIOD); 
+	tb_n_rst = 1'b1; 
 	
+	
+/*****************************************************************************
+// "Data"
+//*****************************************************************************/
 
+	tb_test_case     = "Test Case 3";
+        tb_test_case_num = tb_test_case_num + 1;
+	
+	sync_byte(); 
+	send_shit(8'b00111100); 
+	//#(CLK_PERIOD);
+	//check_shit2(8'b00111101, tb_rx_packet_data); 
+	send_shit(8'b11010011); 
+	//#(CLK_PERIOD);
+	check_shit2(8'b11010011, tb_rx_packet_data); 
+	send_shit(8'b11110000); 
+	//#(CLK_PERIOD);
+	check_shit2(8'b11110000, tb_rx_packet_data);
+	eop(); 
+	
 end
 endmodule
 

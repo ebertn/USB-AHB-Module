@@ -1,9 +1,9 @@
 QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
-Start time: 05:16:43 on Apr 24,2019
+Start time: 10:56:47 on Apr 24,2019
 vlog -sv -work source_work source/tb_usb_rx.sv 
 -- Compiling module tb_usb_rx
 
 Top level modules:
 	tb_usb_rx
-End time: 05:16:43 on Apr 24,2019, Elapsed time: 0:00:00
+End time: 10:56:47 on Apr 24,2019, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0

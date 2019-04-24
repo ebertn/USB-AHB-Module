@@ -8,44 +8,36 @@ z2
 !i10f 100
 cModel Technology
 Z0 d/home/ecegrid/a/mg74/USB-AHB-Module/chris/cdl
-T_opt
-!s110 1556097409
-V3827^2nAlmU2A;92QQU9A2
-04 9 4 work tb_usb_rx fast 0
-=1-3417eba02219-5cc02980-d94d2-102a
-o-quiet -auto_acc_if_foreign -work source_work -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim +acc
-n@_opt
-OL;O;10.3b;59
 vcontrol_fsm
 Z1 DXx6 sv_std 3 std 0 22 <EOTafDcUY:cQeO^ICn]m3
-!s110 1556095561
+Z2 !s110 1556118074
 !i10b 1
-!s100 o<1ZThjT0_hWeH6DDE;BV2
-IB:lNzRRJVGISj:hbDiLfd1
-Z2 V`JN@9S9cnhjKRR_L]QIcM3
+!s100 l`;V6HF8`S@]l0[aXdFPV2
+IVO3B^Yc88=hnTdYLzUlWI3
+Z3 V`JN@9S9cnhjKRR_L]QIcM3
 !s105 control_fsm_sv_unit
 S1
 R0
-w1556095545
+w1556118067
 8source/control_fsm.sv
 Fsource/control_fsm.sv
 L0 1
-Z3 OL;L;10.3b;59
+Z4 OL;L;10.3b;59
 r1
 !s85 0
 31
-!s108 1556095561.712467
+!s108 1556118074.918528
 !s107 source/control_fsm.sv|
 !s90 -sv|-work|source_work|source/control_fsm.sv|
 !i113 0
-Z4 o-sv -work source_work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z5 o-sv -work source_work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 vcrc_checker_5bit
 R1
 !s110 1556091426
 !i10b 1
 !s100 ED7=S`[6]i=DIiFKfekSF3
 IiEFCK>nhJd3TKejY8FBa<0
-R2
+R3
 !s105 crc_checker_5bit_sv_unit
 S1
 R0
@@ -53,7 +45,7 @@ w1556091366
 8source/crc_checker_5bit.sv
 Fsource/crc_checker_5bit.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
@@ -61,37 +53,37 @@ r1
 !s107 source/crc_checker_5bit.sv|
 !s90 -sv|-work|source_work|source/crc_checker_5bit.sv|
 !i113 0
-R4
+R5
 vdecoder
 R1
-Z5 !s110 1556097403
+!s110 1556114925
 !i10b 1
 !s100 ?8ibJ=67fNTNJb7Bk;E:c0
 I4nh<9himNBiQH?=PD[GzY2
-R2
+R3
 !s105 decoder_sv_unit
 S1
 R0
-w1556097349
+w1556114923
 8source/decoder.sv
 Fsource/decoder.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
-!s108 1556097403.630963
+!s108 1556114925.225459
 !s107 source/decoder.sv|
 !s90 -sv|-work|source_work|source/decoder.sv|
 !i113 0
-R4
+R5
 vflex_counter
 R1
 !s110 1556079107
 !i10b 1
 !s100 ggzH8GhKBN^6Ajj0>5eoY0
 IW>_3XOfTQYMMd58FP54Lj2
-R2
+R3
 !s105 flex_counter_sv_unit
 S1
 R0
@@ -99,7 +91,7 @@ Z6 w1556062212
 8source/flex_counter.sv
 Fsource/flex_counter.sv
 L0 4
-R3
+R4
 r1
 !s85 0
 31
@@ -107,14 +99,14 @@ r1
 !s107 source/flex_counter.sv|
 !s90 -sv|-work|source_work|source/flex_counter.sv|
 !i113 0
-R4
+R5
 vflex_stp_sr
 R1
 !s110 1556081120
 !i10b 1
 !s100 R2ACMjeL4=`]F3lOnV0Nm0
 IldUHYl>Idm@ngflk=:bAk1
-R2
+R3
 !s105 flex_stp_sr_sv_unit
 S1
 R0
@@ -122,7 +114,7 @@ w1556080613
 8source/flex_stp_sr.sv
 Fsource/flex_stp_sr.sv
 L0 4
-R3
+R4
 r1
 !s85 0
 31
@@ -130,14 +122,14 @@ r1
 !s107 source/flex_stp_sr.sv|
 !s90 -sv|-work|source_work|source/flex_stp_sr.sv|
 !i113 0
-R4
+R5
 vsr_8bit
 R1
 !s110 1556079108
 !i10b 1
 !s100 HSRR3h7X?0nAZ^]ERD?fl0
 I;haezOdaSOTlzT_<>inNN3
-R2
+R3
 !s105 sr_8bit_sv_unit
 S1
 R0
@@ -145,7 +137,7 @@ R6
 8source/sr_8bit.sv
 Fsource/sr_8bit.sv
 L0 3
-R3
+R4
 r1
 !s85 0
 31
@@ -153,37 +145,37 @@ r1
 !s107 source/sr_8bit.sv|
 !s90 -sv|-work|source_work|source/sr_8bit.sv|
 !i113 0
-R4
+R5
 vtb_usb_rx
 R1
-R5
+!s110 1556117807
 !i10b 1
-!s100 [TYo]E^J4ioB]=B[hH^QJ3
-IJBJ4M354<ljT02JBPCX8i1
-R2
+!s100 m8IYOjjCi0LNVm0i_ZJAO3
+I2ZZAW:2_Y:ZN7:hHee`^d2
+R3
 !s105 tb_usb_rx_sv_unit
 S1
 R0
-w1556097396
+w1556117803
 8source/tb_usb_rx.sv
 Fsource/tb_usb_rx.sv
 L0 3
-R3
+R4
 r1
 !s85 0
 31
-!s108 1556097403.419345
+!s108 1556117807.500147
 !s107 source/tb_usb_rx.sv|
 !s90 -sv|-work|source_work|source/tb_usb_rx.sv|
 !i113 0
-R4
+R5
 vtimer
 R1
 !s110 1556081203
 !i10b 1
 !s100 E9OLfkan^hdiW31L<`S^C3
 Ii]jo1b:I90Pj<NoF;Hc3F0
-R2
+R3
 !s105 timer_sv_unit
 S1
 R0
@@ -191,7 +183,7 @@ w1556081193
 8source/timer.sv
 Fsource/timer.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
@@ -199,27 +191,27 @@ r1
 !s107 source/timer.sv|
 !s90 -sv|-work|source_work|source/timer.sv|
 !i113 0
-R4
+R5
 vusb_rx
 R1
-!s110 1556092708
-!i10b 1
-!s100 5QnlC]ojo7WV[H<NFK04o0
-INc5>;TCm@Y68S_JO8Ind72
 R2
+!i10b 1
+!s100 O0o2Tk0jK=JoQ8X?6XUMC1
+IiU`RhIfG]HZk`behMAQfD1
+R3
 !s105 usb_rx_sv_unit
 S1
 R0
-w1556092695
+w1556117995
 8source/usb_rx.sv
 Fsource/usb_rx.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
-!s108 1556092708.380033
+!s108 1556118074.749747
 !s107 source/usb_rx.sv|
 !s90 -sv|-work|source_work|source/usb_rx.sv|
 !i113 0
-R4
+R5

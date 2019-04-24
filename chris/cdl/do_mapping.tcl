@@ -1,5 +1,5 @@
 # Step 1:  Read in the source file
-analyze -format sverilog -lib WORK {control_fsm.sv timer.sv flex_counter.sv flex_stp_sr.sv sr_8bit.sv decoder.sv crc_checker_5bit.sv  usb_rx.sv}
+analyze -format sverilog -lib WORK {control_fsm.sv timer.sv flex_counter.sv flex_stp_sr.sv sr_8bit.sv decoder.sv crc_checker_5bit.sv crc_checker_16bit.sv  usb_rx.sv}
 elaborate usb_rx -lib WORK
 uniquify
 # Step 2: Set design constraints
@@ -7,7 +7,7 @@ uniquify
 # set_max_delay <delay> -from "<input>" -to "<output>"
 # set_max_area <area>
 # set_max_total_power <power> mW
-
+ create_clock "clk" -name "clk" -period 10
 
 # Step 3: Compile the design
 compile -map_effort medium

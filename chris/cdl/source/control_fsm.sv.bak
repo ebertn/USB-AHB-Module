@@ -6,7 +6,10 @@ module control_fsm
 	input wire [7:0] packet_in, 
 	input wire eop, 
 	input wire five_crc, 
+	input wire byte_count, 
+	input wire sixteen_crc, 
 	output reg five_crc_clear, 
+	output reg sixteen_crc_clear, 
 	output reg [7:0] packet_data, 
 	output reg [2:0] rx_packet, 
 	output reg store_rx_data 
@@ -21,7 +24,7 @@ module control_fsm
 	011 = error "NACK, STALL"
 	*/
 
-	typedef enum reg [3:0] {IDLE, PID, DATA0, DATA1, DATA2, TOKEN, ADDRESS, ENDPOINT_CRC, EOP} state_var;
+	typedef enum reg [3:0] {IDLE, PID, DATA0, DATA1, DATA2, TOKEN, ADDRESS, ENDPOINT_CRC, EOP, EOP2} state_var;
 				
 	
 	state_var state, next_state; 
@@ -37,9 +40,10 @@ module control_fsm
 	always_comb begin
 		store_rx_data = 1'b0; 
 		next_state = state; 
-		rx_packet = 3'b000; 
-		packet_data = '0; 
+		//rx_packet = 3'b000; 
+		//packet_data = '0; 
 		five_crc_clear = 1'b0; 
+		sixteen_crc_clear = 1'b0; 
 		case(state) 
 			IDLE:begin
 				rx_packet = 3'b000; 
@@ -54,6 +58,7 @@ module control_fsm
 				if (packet_in == 8'b00111100 || packet_in == 8'b10110100) begin
 					next_state = DATA0; 
 					rx_packet = 3'b100; 
+					
 				end else if (packet_in == 8'b00011110) begin
 					rx_packet = 3'b001; 
 					next_state = TOKEN;
@@ -82,25 +87,39 @@ module control_fsm
 			end
 			DATA1:begin
 				next_state = DATA2; 
+		
 			end 
 			DATA2:begin
-				packet_data = packet_in;
+				if(byte_count == 1'b1) begin
+					packet_data = packet_in;
+				end
 				if (eop == 1'b1) begin
-					next_state = EOP; 
+					next_state = EOP2; 
 					store_rx_data = 1'b1; 
 				end else begin
 					next_state = DATA2; 
 				end
 			end
 			EOP:begin
+				//store_rx_data = 1'b1; 
 				next_state = EOP; 
-				if (five_crc == 1'b1) begin
+				if (five_crc == 1'b1 && eop == 1'b1) begin
 					five_crc_clear = 1'b1; 
 					rx_packet = 3'b011; 
 				end else begin
 					five_crc_clear = 1'b0; 
 				end 
 			end 
+			EOP2:begin
+				store_rx_data = 1'b1;
+				next_state = EOP2;
+				if (sixteen_crc == 1'b1 && eop == 1'b1) begin
+					sixteen_crc_clear = 1'b1; 
+					rx_packet = 3'b011; 
+				end else begin
+					sixteen_crc_clear = 1'b0; 
+				end 
+			end
 		endcase
 	end 
 

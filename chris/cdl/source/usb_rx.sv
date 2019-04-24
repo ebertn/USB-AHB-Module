@@ -19,6 +19,8 @@ module usb_rx
 	logic start; 
 	logic five_crc; 
 	logic five_crc_clear; 
+	logic sixteen_crc; 
+	logic sixteen_crc_clear; 
 
 	decoder DECODE (.clk(clk), 
 		.n_rst(n_rst), 
@@ -33,6 +35,12 @@ module usb_rx
 		.din(d_decoded), 
 		.clear(five_crc_clear), 
 		.crcError(five_crc)
+	); 
+	crc_checker_16bit CHECK2 (.clk(clk), 
+		.nRst(n_rst), 
+		.din(d_decoded), 
+		.clear(sixteen_crc_clear), 
+		.crcError(sixteen_crc)
 	); 
 		
 	timer TIME (.clk(clk), 
@@ -61,7 +69,10 @@ module usb_rx
 		.rx_packet(rx_packet), 
 		.store_rx_data(store_rx_packet),
 		.five_crc(five_crc), 
-		.five_crc_clear(five_crc_clear)
+		.five_crc_clear(five_crc_clear),
+		.sixteen_crc(sixteen_crc), 
+		.sixteen_crc_clear(sixteen_crc_clear),
+		.byte_count(byte_count)
 	); 
 
 	

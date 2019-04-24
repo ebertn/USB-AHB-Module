@@ -71,7 +71,8 @@ module decoder
 				eop = 1'b0; 
 			end
 			ZERO_TWO:begin
-				
+				sim:/tb_usb_rx/DUT/dplus_in
+
 				if(d_plus_in == 1'b0 && d_minus_in == 1'b1) begin
 					next_decoded = 1'b0; 
 					next_state = ZERO; 
@@ -110,12 +111,12 @@ module decoder
 				
 			end
 			EOP_ONE: begin
-				/*if (d_plus_in == 1'b0 && d_minus_in == 1'b0) begin
+				if (d_plus_in == 1'b0 && d_minus_in == 1'b0) begin
 					next_state = EOP_TWO; 
 				end 
 				else begin
 					next_state = INITIAL; 
-				end*/
+				end
 				next_state = EOP_TWO; 
 				eop = 1'b0;
 			end 
