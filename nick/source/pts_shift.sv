@@ -16,7 +16,7 @@ module pts_shift
 	output reg serial_out
 );
 
-flex_pts_sr pts #(.NUM_BITS(8), .SHIFT_MSB(0)) (.clk(clk), .n_rst(n_rst), .shift_enable(shift_enable), 
+flex_pts_sr #(.NUM_BITS(8), .SHIFT_MSB(0)) pts (.clk(clk), .n_rst(n_rst), .shift_enable(shift_enable), 
 	.load_enable(load_enable), .parallel_in(parallel_in), .serial_out(serial_out));
 
 endmodule

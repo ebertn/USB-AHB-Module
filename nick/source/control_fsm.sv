@@ -30,8 +30,7 @@ module control_fsm
 	output logic eop
 );
 
-typedef enum {IDLE, START_TRANSFER, SYNC_BYTE, DATA_PID, SEND_BYTE, CRC0, CRC1, ACK_PID, NACK_PID, EOP} State;
-
+typedef enum {IDLE, START_TRANSFER, SYNC_BYTE, LOAD_PID, DATA_PID, LOAD_DATA, SEND_BYTE, CRC0, CRC1, ACK_PID, NACK_PID, DELAY, EOP} State;
 State state, next_state;
 
 localparam tx_packet_IDLE 	    = 2'b00;
@@ -66,9 +65,10 @@ always_comb begin
 		end
 
 		LOAD_PID: begin
-			if (!rollover_flag64) next_state = LOAD_PID;
-			else if (tx_packet == tx_packet_DATA) next_state = DATA_PID;
-			else if (tx_packet == tx_packet_ACK) next_state = ACK_PID;
+			//if (!rollover_flag64) next_state = LOAD_PID;
+			//else 
+			if (tx_packet == tx_packet_DATA) next_state = DATA_PID;
+			else if (tx_packet == tx_packet_SEND_ACK) next_state = ACK_PID;
 			else next_state = NACK_PID;
 		end
 
@@ -82,7 +82,7 @@ always_comb begin
 		end
 
 		SEND_BYTE: begin
-			if (rollover_flag64) next_state = GET_DATA;
+			if (rollover_flag64) next_state = LOAD_DATA;
 		end
 
 		CRC0: begin 
@@ -90,18 +90,24 @@ always_comb begin
 		end
 
 		CRC1: begin 
-			if (rollover_flag64) next_state = EOP;
+			if (rollover_flag64) next_state = DELAY;
 		end
 
 		ACK_PID: begin 
-			if (rollover_flag64) next_state = EOP;
+			if (rollover_flag64) next_state = DELAY;
 		end
 
 		NACK_PID: begin 
-			if (rollover_flag64) next_state = EOP;
+			if (rollover_flag64) next_state = DELAY;
 		end
 
-		EOP: next_state = IDLE;
+		DELAY: begin
+			if(rollover_flag8 || rollover_flag64) next_state = EOP;
+		end
+
+		EOP: begin
+			next_state = IDLE;
+		end
 		
 	endcase
 
@@ -117,20 +123,21 @@ always_comb begin
 	data_out = '0;
 	eop = 0;
 	get_tx_packet_data = 0;
-	clear_crc = 0;
+	crc_clear = 0;
 	crc_shift = 0;
 	timer_latch_packet_size = 0;
+	pts_load = 0;
 
-	pts_shift = rollover_flag64 && !stuffing && state != IDLE;
+	pts_shift = rollover_flag8 && !stuffing && state != IDLE;
 
 	case(state)
 		IDLE: begin
-			timer_count_enable = 0;
+			//timer_count_enable = 0;
 		end
 
 		START_TRANSFER: begin
 			pts_load = 1;
-			data_out = 8'b00000001;
+			data_out = 8'b10000000;
 			timer_clear = 1;
 			timer_latch_packet_size = 1;
 		end
@@ -140,16 +147,16 @@ always_comb begin
 
 		LOAD_PID: begin
 			pts_load = 1;
-			timer_clear = 1;
+			//timer_clear = 1;
 
 			if (tx_packet == tx_packet_DATA) data_out = 8'b00111100;
-			else if (tx_packet == tx_packet_ACK) data_out = 8'b10110100;
+			else if (tx_packet == tx_packet_SEND_ACK) data_out = 8'b10110100;//8'b00101101;
 			else data_out = 8'b10100101;
 		end
 
 		DATA_PID: begin
 			if(rollover_flag64) timer_clear = 1;
-			clear_crc = 1;
+			crc_clear = 1;
 			get_tx_packet_data = 1;
 		end
 

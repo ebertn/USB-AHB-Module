@@ -11,7 +11,8 @@ module encoder
     input logic clk,
     input logic n_rst,
     input logic serial_in,
-    input logic rollover_flag64,
+    input logic rollover_flag8,
+	input logic rollover_flag64,
     input logic EOP,
     output logic dplus,
     output logic dminus
@@ -25,8 +26,8 @@ logic next_dplus, next_dminus;
 always_ff @(posedge clk, negedge n_rst) begin
     if (!n_rst) begin
         state <= IDLE;
-        dplus <= 0;
-        dminus <= 1;
+        dplus <= 1;
+        dminus <= 0;
     end else begin
         state <= next_state;
         dplus <= next_dplus;
@@ -40,41 +41,33 @@ always_comb begin
 
     case(state)
         IDLE: begin
-            if (serial_in == 0)
-                next_state = ZERO1;
-            else
-                next_state = ONE1;
+		if(rollover_flag8) begin
+            	if (serial_in == 0)
+                	next_state = ZERO1;
+            	else
+                	next_state = ONE1;
+			end
         end
 
         ZERO1: begin
 //            if (serial_in == 1)
 //                next_state = ONE;
-		next_state = ZERO2;
+			next_state = IDLE;
         end
-
-	ZERO2: begin
-		if (serial_in == 1)
-                	next_state = IDLE;
-	end
 
         ONE1: begin
 //            if (serial_in == 0)
 //                next_state = ZERO;
-		next_state = ONE2;
+			next_state = IDLE;
         end
 
-	ONE2: begin
-		if (serial_in == 0)
-	                next_state = IDLE;
-	end
-
         EOP1: begin
-	    if(rollover_flag64)
+	    	if(rollover_flag8)
                  next_state = EOP2;
         end
 
         EOP2: begin
-	    if(rollover_flag64)
+	    	if(rollover_flag8)
                  next_state = IDLE;
         end
     endcase
@@ -91,12 +84,11 @@ always_comb begin
     
     case(state)
         IDLE: begin
-		if(dplus == dminus) begin
-			next_dplus = 0;
-			next_dminus = 1;
+			if(dplus == dminus) begin
+				next_dplus = 1;
+				next_dminus = 0;
+			end
 		end
-
-        end
 
         ZERO1: begin
             next_dplus = !dplus;

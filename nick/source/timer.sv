@@ -23,8 +23,10 @@ module timer
 // Might need to control rollover_val64 to send ack and nack
 
 logic [6:0] saved_packet_size;
+logic [3:0] counter8, counter64;
+logic [6:0] counter512;
 
-always_ff(posedge clk, negedge n_rst) begin
+always_ff @(posedge clk, negedge n_rst) begin
 	if(!n_rst)
 		saved_packet_size <= '0;
 	else begin
@@ -34,16 +36,16 @@ always_ff(posedge clk, negedge n_rst) begin
 	end
 end
 
-flex_counter count8 #(.NUM_CNT_BITS(4)) (.clk(clk), .n_rst(n_rst),
+flex_counter #(.NUM_CNT_BITS(4)) count8 (.clk(clk), .n_rst(n_rst),
     .clear(clear), .count_enable(count_enable), .rollover_val(4'd8),
-    .count_out(), .rollover_flag(rollover_flag8));
+    .count_out(counter8), .rollover_flag(rollover_flag8));
 
-flex_counter count64 #(.NUM_CNT_BITS(4)) (.clk(clk), .n_rst(n_rst),
+flex_counter #(.NUM_CNT_BITS(4)) count64 (.clk(clk), .n_rst(n_rst),
     .clear(clear), .count_enable(rollover_flag8), .rollover_val(4'd8),
-    .count_out(), .rollover_flag(rollover_flag64));
+    .count_out(counter64), .rollover_flag(rollover_flag64));
 
-flex_counter count512 #(.NUM_CNT_BITS(7)) (.clk(clk), .n_rst(n_rst),
+flex_counter #(.NUM_CNT_BITS(7)) count512 (.clk(clk), .n_rst(n_rst),
     .clear(clear), .count_enable(rollover_flag64), .rollover_val(saved_packet_size),
-    .count_out(), .rollover_flag(rollover_flag512));
+    .count_out(counter512), .rollover_flag(rollover_flag512));
 
 endmodule
