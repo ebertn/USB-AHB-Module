@@ -111,6 +111,15 @@ begin
 end
 endtask
 
+task broken;
+integer i;
+begin
+	i = 1;
+	while (i) begin
+		$info("yo");
+	end
+end
+endtask
 
 //*****************************************************************************
 //*****************************************************************************
@@ -128,7 +137,7 @@ initial begin
 	tb_rxDataReady		= 1'b0;
 	tb_bufferOccupancy	= '0;
 	tb_txPacketDataSize = 1'b0;
-
+	broken();
 	tb_expected_bufferReserved = 1'b0;
 
 	// Wait some time before starting first test case
@@ -202,6 +211,7 @@ initial begin
 	tb_bufferOccupancy = 7'h10;
 	tb_rxDataReady = 1'b1;
 	#(CLK_PERIOD);
+	tb_rxDataReady = 1'b0;
 
 	// Set and check the expected output
 	tb_expected_bufferReserved = 1'b1;

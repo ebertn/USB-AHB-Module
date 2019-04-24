@@ -111,7 +111,6 @@ begin
 end
 endtask
 
-
 //*****************************************************************************
 //*****************************************************************************
 // Main TB Process
@@ -128,7 +127,6 @@ initial begin
 	tb_rxDataReady		= 1'b0;
 	tb_bufferOccupancy	= '0;
 	tb_txPacketDataSize = 1'b0;
-
 	tb_expected_bufferReserved = 1'b0;
 
 	// Wait some time before starting first test case

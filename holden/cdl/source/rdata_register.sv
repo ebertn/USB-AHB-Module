@@ -8,9 +8,9 @@ module rdata_register (
 // RDATA Register
 always_ff @(posedge clk, negedge nRst) begin
 	if (nRst == 1'b0) begin
-		rData <= '0;
+		rdata <= '0;
 	end else begin
-		rData <= rxData;
+		rdata <= rxData;
 	end
 end
 

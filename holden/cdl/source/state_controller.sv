@@ -14,7 +14,7 @@ module state_controller (
 	output reg hresp,
 	output reg hready,
 	output wire [1:0] dataSize,
-	output wire txPacketSizeChanged
+	output reg txPacketSizeChanged
 );
 
 // localparams
@@ -36,7 +36,7 @@ always_comb begin
 	storeTxData = 1'b0;
 	getRxData = 1'b0;
 	nextState = IDLE;
-	nextTxPacketSizeChanged = 1'b0;
+	txPacketSizeChanged = 1'b0;
 
 	if (hsel && htrans != IDLE) begin
 		if (hsize == 2'b11) begin

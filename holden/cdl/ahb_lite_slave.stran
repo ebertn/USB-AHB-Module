@@ -1,7 +1,3 @@
-# 
-# 
-# 
-# 
 # //  Questa Sim-64
 # //  Version 10.3b linux_x86_64 May 29 2014
 # //
@@ -12,11 +8,187 @@
 # //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
 # //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
 # //
-# vsim -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB "+no_glitch_msg" -coverage -voptargs="+acc" -i -t ps source_work/.tb_ahb_lite_slave 
-# Start time: 22:06:49 on Apr 23,2019
-# ** Note: (vsim-8009) Loading existing optimized design _opt
+# vsim -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB "+no_glitch_msg" -coverage -voptargs="+acc" -i -t ps source_work.tb_ahb_lite_slave 
+# Start time: 01:47:10 on Apr 24,2019
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading sv_std.std
 # Loading work.tb_ahb_lite_slave(fast)
-# ** Warning: (vsim-8634) Code was not compiled with coverage options.
-# End time: 22:06:53 on Apr 23,2019, Elapsed time: 0:00:04
-# Errors: 0, Warnings: 1
+# Loading /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim.ahb_lite_bus_cdl(fast)
+# Loading work.ahb_lite_slave(fast)
+# Loading work.state_controller(fast)
+# Loading work.value_registers(fast)
+# Loading work.rdata_register(fast)
+# Loading work.address_decoder(fast)
+# Loading work.fixitFSM(fast)
+do /home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl/ahb_lite_slave.do
+run 2000 ns
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# Loading sv_std.std
+# Loading work.tb_ahb_lite_slave(fast)
+# Loading /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim.ahb_lite_bus_cdl(fast)
+]
+# Loading work.ahb_lite_slave(fast)
+# Loading work.state_controller(fast)
+# Loading work.value_registers(fast)
+# Loading work.rdata_register(fast)
+# Loading work.address_decoder(fast)
+# Loading work.fixitFSM(fast)
+# invalid command name "]"
+
+
+
+do /home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl/ahb_lite_slave.do
+run 4000 ns
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 17)
+#    Time: 2200 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 17)
+#    Time: 2200 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 18)
+#    Time: 2210 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 18)
+#    Time: 2210 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2220 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2220 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2230 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2230 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2240 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2240 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2250 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2250 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2260 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2260 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2270 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2270 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2280 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2280 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2290 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2290 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# Loading sv_std.std
+# Loading work.tb_ahb_lite_slave(fast)
+# Loading /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim.ahb_lite_bus_cdl(fast)
+# Loading work.ahb_lite_slave(fast)
+# Loading work.state_controller(fast)
+# Loading work.value_registers(fast)
+# Loading work.rdata_register(fast)
+# Loading work.address_decoder(fast)
+# Loading work.fixitFSM(fast)
+do /home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl/ahb_lite_slave.do
+run 2400 ns
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 17)
+#    Time: 2200 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 17)
+#    Time: 2200 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 18)
+#    Time: 2210 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 18)
+#    Time: 2210 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2220 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2220 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2230 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2230 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2240 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2240 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2250 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2250 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2260 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2260 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2270 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2270 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2280 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2280 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2290 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2290 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl/ahb_lite_slave.do
+add wave -position insertpoint sim:/tb_ahb_lite_slave/*
+run 1000 ns
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# Loading sv_std.std
+# Loading work.tb_ahb_lite_slave(fast)
+# Loading /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim.ahb_lite_bus_cdl(fast)
+# Loading work.ahb_lite_slave(fast)
+# Loading work.state_controller(fast)
+# Loading work.value_registers(fast)
+# Loading work.rdata_register(fast)
+# Loading work.address_decoder(fast)
+# Loading work.fixitFSM(fast)
+run 2400 ns
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 17)
+#    Time: 2200 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 17)
+#    Time: 2200 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 18)
+#    Time: 2210 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 18)
+#    Time: 2210 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2220 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2220 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2230 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2230 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2240 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2240 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2250 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 19)
+#    Time: 2250 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2260 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2260 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2270 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2270 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2280 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2280 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+# ** Error: Incorrect 'hresp' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2290 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 273
+# ** Error: Incorrect 'hready' response from slave device during address phase of transaction (transaction 20)
+#    Time: 2290 ns  Scope: tb_ahb_lite_slave.BFM File: /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Source/ahb_lite_bus_cdl.sv Line: 280
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl/ahb_lite_slave.do
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/ecegrid/a/mg77/ece337/USB-AHB-Module/holden/cdl/ahb_lite_slave.do
+# End time: 02:08:33 on Apr 24,2019, Elapsed time: 0:21:23
+# Errors: 1, Warnings: 0
