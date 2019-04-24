@@ -1,0 +1,9 @@
+QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
+Start time: 03:37:06 on Apr 24,2019
+vlog -sv -work source_work source/crc_checker_5bit.sv 
+-- Compiling module crc_checker_5bit
+
+Top level modules:
+	crc_checker_5bit
+End time: 03:37:07 on Apr 24,2019, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0

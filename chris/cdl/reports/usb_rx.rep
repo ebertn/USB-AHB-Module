@@ -7,31 +7,41 @@ Report : timing
         -max_paths 1
 Design : usb_rx
 Version: K-2015.06-SP1
-Date   : Tue Apr 23 14:03:58 2019
+Date   : Wed Apr 24 04:42:59 2019
 ****************************************
 
 Operating Conditions: typical   Library: osu05_stdcells
 Wire Load Model Mode: top
 
-  Startpoint: FSM/state_reg[0]
+  Startpoint: TIME/BYTE/r_flag_reg
               (rising edge-triggered flip-flop)
-  Endpoint: store_rx_packet
+  Endpoint: rx_packet[1]
             (output port)
   Path Group: (none)
   Path Type: max
 
-  Point                                    Incr       Path
-  -----------------------------------------------------------
-  FSM/state_reg[0]/CLK (DFFSR)             0.00       0.00 r
-  FSM/state_reg[0]/Q (DFFSR)               0.51       0.51 r
-  FSM/U41/Y (INVX1)                        0.32       0.82 f
-  FSM/U21/Y (NAND3X1)                      0.32       1.14 r
-  FSM/U11/Y (INVX1)                        0.85       1.99 f
-  FSM/U10/Y (AND2X1)                       0.47       2.46 f
-  FSM/store_rx_data (control_fsm)          0.00       2.46 f
-  store_rx_packet (out)                    0.00       2.46 f
-  data arrival time                                   2.46
-  -----------------------------------------------------------
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  TIME/BYTE/r_flag_reg/CLK (DFFSR)                        0.00       0.00 r
+  TIME/BYTE/r_flag_reg/Q (DFFSR)                          0.85       0.85 f
+  TIME/BYTE/rollover_flag (flex_counter_NUM_CNT_BITS4)
+                                                          0.00       0.85 f
+  TIME/byte_count (timer)                                 0.00       0.85 f
+  SR/byte_done (sr_8bit)                                  0.00       0.85 f
+  SR/U10/Y (INVX1)                                        0.32       1.17 r
+  SR/U5/Y (NOR2X1)                                        0.31       1.48 f
+  SR/packet_data[4] (sr_8bit)                             0.00       1.48 f
+  FSM/packet_in[4] (control_fsm)                          0.00       1.48 f
+  FSM/U49/Y (INVX1)                                       0.20       1.68 r
+  FSM/U48/Y (NOR2X1)                                      0.19       1.87 f
+  FSM/U47/Y (NAND3X1)                                     0.25       2.11 r
+  FSM/U38/Y (OAI21X1)                                     0.16       2.27 f
+  FSM/U10/Y (INVX1)                                       0.13       2.41 r
+  FSM/U9/Y (OAI21X1)                                      0.08       2.48 f
+  FSM/rx_packet[1] (control_fsm)                          0.00       2.48 f
+  rx_packet[1] (out)                                      0.00       2.48 f
+  data arrival time                                                  2.48
+  --------------------------------------------------------------------------
   (Path is unconstrained)
 
 
@@ -41,29 +51,29 @@ Wire Load Model Mode: top
 Report : area
 Design : usb_rx
 Version: K-2015.06-SP1
-Date   : Tue Apr 23 14:03:58 2019
+Date   : Wed Apr 24 04:42:59 2019
 ****************************************
 
 Library(s) Used:
 
     osu05_stdcells (File: /package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db)
 
-Number of ports:                          135
-Number of nets:                           459
-Number of cells:                          350
-Number of combinational cells:            251
-Number of sequential cells:                91
+Number of ports:                          105
+Number of nets:                           353
+Number of cells:                          279
+Number of combinational cells:            203
+Number of sequential cells:                69
 Number of macros/black boxes:               0
-Number of buf/inv:                         69
-Number of references:                       4
+Number of buf/inv:                         58
+Number of references:                       5
 
-Combinational area:              64341.000000
-Buf/Inv area:                     9936.000000
-Noncombinational area:           48384.000000
+Combinational area:              49401.000000
+Buf/Inv area:                     8352.000000
+Noncombinational area:           45936.000000
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (No wire load specified)
 
-Total cell area:                112725.000000
+Total cell area:                 95337.000000
 Total area:                 undefined
 1
 Loading db file '/package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db'
@@ -78,7 +88,7 @@ Report : power
         -analysis_effort low
 Design : usb_rx
 Version: K-2015.06-SP1
-Date   : Tue Apr 23 14:03:59 2019
+Date   : Wed Apr 24 04:42:59 2019
 ****************************************
 
 
@@ -104,15 +114,12 @@ Power-specific unit information :
                                        Switch   Int      Leak     Total
 Hierarchy                              Power    Power    Power    Power    %
 --------------------------------------------------------------------------------
-usb_rx                                    0.727    4.458   37.086    5.185 100.0
-  FSM (control_fsm)                       0.000    0.409    8.607    0.409   7.9
-  SR (sr_8bit)                         7.68e-03    1.145    7.308    1.153  22.2
-    CORE (flex_stp_sr_8_0)             6.15e-03    1.042    5.550    1.048  20.2
-  TIME (timer)                            0.000    1.433   17.580    1.433  27.6
-    BYTE (flex_counter_NUM_CNT_BITS4)     0.000    0.512    5.594    0.512   9.9
-    SHIFT_REGISTER (flex_counter_NUM_CNT_BITS8)
-                                          0.000    0.921   11.986    0.921  17.8
-      add_41_aco (flex_counter_NUM_CNT_BITS8_DW01_inc_0)
-                                          0.000    0.000    1.807 1.81e-06   0.0
-  DECODE (decoder)                        0.719    1.471    3.590    2.190  42.2
+usb_rx                                    1.871    5.660   29.147    7.531 100.0
+  FSM (control_fsm)                    1.51e-03    0.411    6.348    0.412   5.5
+  SR (sr_8bit)                         9.17e-03    1.155    7.308    1.165  15.5
+    CORE (flex_stp_sr_8_0)             7.65e-03    1.052    5.550    1.059  14.1
+  TIME (timer)                         2.63e-02    0.536    5.594    0.562   7.5
+    BYTE (flex_counter_NUM_CNT_BITS4)  2.63e-02    0.536    5.594    0.562   7.5
+  CHECK (crc_checker_5bit)             1.21e-02    0.656    4.343    0.668   8.9
+  DECODE (decoder)                        1.822    2.902    5.554    4.724  62.7
 1

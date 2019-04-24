@@ -1,5 +1,5 @@
 # Step 1:  Read in the source file
-analyze -format sverilog -lib WORK {control_fsm.sv timer.sv flex_counter.sv flex_stp_sr.sv sr_8bit.sv decoder.sv   usb_rx.sv}
+analyze -format sverilog -lib WORK {control_fsm.sv timer.sv flex_counter.sv flex_stp_sr.sv sr_8bit.sv decoder.sv crc_checker_5bit.sv  usb_rx.sv}
 elaborate usb_rx -lib WORK
 uniquify
 # Step 2: Set design constraints

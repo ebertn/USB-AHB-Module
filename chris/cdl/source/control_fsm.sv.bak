@@ -5,8 +5,10 @@ module control_fsm
 	input wire sync_byte, 
 	input wire [7:0] packet_in, 
 	input wire eop, 
-	output wire [7:0] packet_data, 
-	output wire [2:0] rx_packet, 
+	input wire five_crc, 
+	output reg five_crc_clear, 
+	output reg [7:0] packet_data, 
+	output reg [2:0] rx_packet, 
 	output reg store_rx_data 
 );
 
@@ -34,6 +36,10 @@ module control_fsm
 
 	always_comb begin
 		store_rx_data = 1'b0; 
+		next_state = state; 
+		rx_packet = 3'b000; 
+		packet_data = '0; 
+		five_crc_clear = 1'b0; 
 		case(state) 
 			IDLE:begin
 				rx_packet = 3'b000; 
@@ -88,6 +94,12 @@ module control_fsm
 			end
 			EOP:begin
 				next_state = EOP; 
+				if (five_crc == 1'b1) begin
+					five_crc_clear = 1'b1; 
+					rx_packet = 3'b011; 
+				end else begin
+					five_crc_clear = 1'b0; 
+				end 
 			end 
 		endcase
 	end 

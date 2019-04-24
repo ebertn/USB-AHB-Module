@@ -78,9 +78,9 @@ protocol_controller DUT (.clk(tb_clk),
 	.tx_error(tb_tx_error), 
 	.d_mode(tb_d_mode), 
 	.tx_packet(tb_tx_packet),
-	.clear(clear)
-	.lock_db(tb_lock_db)
-	.lock_error(tb_lock_error
+	.clear(clear),
+	.lock_db(tb_lock_db),
+	.lock_error(tb_lock_error)
 ); 
               
 

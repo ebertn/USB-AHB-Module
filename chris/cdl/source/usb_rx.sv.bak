@@ -16,25 +16,35 @@ module usb_rx
 	logic sync_byte; 
 	reg [7:0] packet_in; 
 	logic [7:0] bit_period; 
+	logic start; 
+	logic five_crc; 
+	logic five_crc_clear; 
 
 	decoder DECODE (.clk(clk), 
 		.n_rst(n_rst), 
 		.d_plus_in(dplus_in), 
 		.d_minus_in(dminus_in), 
+		.start(start),
 		.d_decoded(d_decoded), 
 		.eop(eop)
+	); 
+	crc_checker_5bit CHECK (.clk(clk), 
+		.nRst(n_rst), 
+		.din(d_decoded), 
+		.clear(five_crc_clear), 
+		.crcError(five_crc)
 	); 
 		
 	timer TIME (.clk(clk), 
 		.n_rst(n_rst), 
 		.bit_period(bit_period),
-		.shift_enable(shift_enable),
-		.byte_det(byte_count)
+		.start(start), 
+		.byte_count(byte_count)
 	); 
 	
 	sr_8bit SR (.clk(clk), 
 		.n_rst(n_rst), 
-		.shift_strobe(shift_enable), 
+		.shift_strobe(start), 
 		.serial_in(d_decoded), 
 		.byte_done(byte_count), 
 		.packet_data(packet_in),
@@ -49,7 +59,9 @@ module usb_rx
 		.eop(eop), 
 		.packet_data(rx_packet_data),
 		.rx_packet(rx_packet), 
-		.store_rx_data(store_rx_packet)
+		.store_rx_data(store_rx_packet),
+		.five_crc(five_crc), 
+		.five_crc_clear(five_crc_clear)
 	); 
 
 endmodule

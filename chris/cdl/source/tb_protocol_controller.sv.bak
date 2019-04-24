@@ -253,12 +253,17 @@ initial begin
 	end else begin
 		$error("Incorrect Output for Buffer Reserved");
 	end
-	tb_tx_status = 1'b1; 
+	tb_rx_packet = 3'b001; 
+	#(0.1)
+	tb_rx_packet = 3'b100; 
+	
+	
+	
 	
 
   
   
 
-end
+endtask
 
 endmodule

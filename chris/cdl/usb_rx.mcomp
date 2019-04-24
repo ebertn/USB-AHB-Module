@@ -1,7 +1,16 @@
 QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
-Start time: 14:04:02 on Apr 23,2019
+Start time: 04:43:03 on Apr 24,2019
 vlog -sv -work mapped_work mapped/usb_rx.v 
-** Error: (vlog-19) Failed to access library 'mapped_work' at "mapped_work".
-No such file or directory. (errno = ENOENT)
-End time: 14:04:02 on Apr 23,2019, Elapsed time: 0:00:00
-Errors: 1, Warnings: 0
+-- Compiling module decoder
+-- Compiling module crc_checker_5bit
+-- Compiling module flex_counter_NUM_CNT_BITS4
+-- Compiling module timer
+-- Compiling module flex_stp_sr_8_0
+-- Compiling module sr_8bit
+-- Compiling module control_fsm
+-- Compiling module usb_rx
+
+Top level modules:
+	usb_rx
+End time: 04:43:03 on Apr 24,2019, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

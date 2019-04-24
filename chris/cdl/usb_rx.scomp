@@ -1,7 +1,9 @@
 QuestaSim-64 vlog 10.3b Compiler 2014.05 May 29 2014
-Start time: 13:59:36 on Apr 23,2019
+Start time: 03:58:28 on Apr 24,2019
 vlog -sv -work source_work source/usb_rx.sv 
-** Error: (vlog-19) Failed to access library 'source_work' at "source_work".
-No such file or directory. (errno = ENOENT)
-End time: 13:59:36 on Apr 23,2019, Elapsed time: 0:00:00
-Errors: 1, Warnings: 0
+-- Compiling module usb_rx
+
+Top level modules:
+	usb_rx
+End time: 03:58:28 on Apr 24,2019, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

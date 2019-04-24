@@ -1,0 +1,274 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/ecegrid/a/mg74/USB-AHB-Module/chris/cdl
+T_opt
+!s110 1556095389
+V?omS4NlV3ZE5_K=R?6Kh80
+04 9 4 work tb_usb_rx fast 0
+=1-3417eba02219-5cc0219c-cebf3-adc
+o-quiet -auto_acc_if_foreign -work mapped_work -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB -Lf /home/ecegrid/a/ece337/Course_Prod/IP_Libs/Lab_IP_Lib/Vsim +acc
+n@_opt
+OL;O;10.3b;59
+vcontrol_fsm
+Z1 DXx6 sv_std 3 std 0 22 <EOTafDcUY:cQeO^ICn]m3
+Z2 !s110 1556095383
+!i10b 1
+!s100 aU]11cdFcXeScgLTO6oGS2
+INBzVMW4XzaQeOIZ0IkL1:0
+Z3 V`JN@9S9cnhjKRR_L]QIcM3
+Z4 !s105 usb_rx_v_unit
+S1
+R0
+Z5 w1556095379
+Z6 8mapped/usb_rx.v
+Z7 Fmapped/usb_rx.v
+L0 258
+Z8 OL;L;10.3b;59
+r1
+!s85 0
+31
+Z9 !s108 1556095383.029780
+Z10 !s107 mapped/usb_rx.v|
+Z11 !s90 -sv|-work|mapped_work|mapped/usb_rx.v|
+!i113 0
+Z12 o-sv -work mapped_work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vcrc_checker_5bit
+R1
+R2
+!i10b 1
+!s100 iI?IX[9OOVjWen4n<V78I2
+IIiaB[EJPa?<B6`0hc@fgC2
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 70
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+vdecoder
+R1
+R2
+!i10b 1
+!s100 iIT[PD`FzVE9aB[9mY3zF3
+I:[c?<_Pe^4:A2ezOJMcVQ3
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 8
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+vflex_counter_NUM_CNT_BITS4
+R1
+R2
+!i10b 1
+!s100 QnHVECLb[:C_3^z36R>zj1
+IdDI9nYb;F32nXlM0mW5I20
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 104
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+nflex_counter_@n@u@m_@c@n@t_@b@i@t@s4
+vflex_counter_NUM_CNT_BITS8
+R1
+Z13 !s110 1556079028
+!i10b 1
+!s100 87i2<cVFAcOkNHz2^LL4<1
+IBbbZkR7cSG>m0]gRJA4dd0
+R3
+R4
+S1
+R0
+Z14 w1556079025
+R6
+R7
+L0 80
+R8
+r1
+!s85 0
+31
+Z15 !s108 1556079028.321027
+R10
+R11
+!i113 0
+R12
+nflex_counter_@n@u@m_@c@n@t_@b@i@t@s8
+vflex_counter_NUM_CNT_BITS8_DW01_inc_0
+R1
+R13
+!i10b 1
+!s100 4>El;6fl7QB8>0JE^kPA`1
+Ie8lz8T1bfdd`lnmf3i;LH0
+R3
+R4
+S1
+R0
+R14
+R6
+R7
+L0 63
+R8
+r1
+!s85 0
+31
+R15
+R10
+R11
+!i113 0
+R12
+nflex_counter_@n@u@m_@c@n@t_@b@i@t@s8_@d@w01_inc_0
+vflex_stp_sr_8_0
+R1
+R2
+!i10b 1
+!s100 ]2FHCzh=0`24HbP3dN^h12
+Ic`>IMCB[Gl]gQf>GW2PoE2
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 177
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+vsr_8bit
+R1
+R2
+!i10b 1
+!s100 PD_Y2Cl8]E0IzXR2]^jP;3
+IdzARgCA<N@@N>ZNcJ2VN00
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 225
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+vtb_usb_rx
+R1
+!s110 1556095175
+!i10b 1
+!s100 iGBnFU8d<6QHJFdhJmc`c1
+Ii3H9b^A:Di8zFzefA]V^21
+R3
+!s105 tb_usb_rx_sv_unit
+S1
+R0
+w1556095080
+8source/tb_usb_rx.sv
+Fsource/tb_usb_rx.sv
+L0 3
+R8
+r1
+!s85 0
+31
+!s108 1556095175.670859
+!s107 source/tb_usb_rx.sv|
+!s90 -sv|-work|mapped_work|source/tb_usb_rx.sv|
+!i113 0
+R12
+vtimer
+R1
+R2
+!i10b 1
+!s100 5jDng]OX<Y3ec76WA==`W0
+I[VQNLnA[QLPl1EzblR2@J3
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 165
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+vusb_rx
+R1
+R2
+!i10b 1
+!s100 VC8A@^96?81kIN4K:a_dJ2
+IM=kmBLOli3<=3FPWc@k^01
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 353
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
